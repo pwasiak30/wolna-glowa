@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wolna Głowa — sprawdź, czy Twoja grupa Cię kontroluje</title>
+<meta name="hz:slide-selector" content=".slide">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-900:#0f2e2b;
+    --teal-700:#155e56;
+    --teal-600:#1a7a70;
+    --teal-500:#20998c;
+    --teal-100:#e4f5f2;
+    --coral:#ff6f59;
+    --coral-dark:#e8543f;
+    --amber:#f5a623;
+    --amber-dark:#d6890a;
+    --red:#e34b4b;
+    --red-dark:#c53737;
+    --green:#3bab72;
+    --green-dark:#2c8a5a;
+    --ink:#1c2b29;
+    --ink-soft:#4a5c59;
+    --paper:#fbfaf7;
+    --card:#ffffff;
+    --line:#e4e0d8;
+    --shadow: 0 10px 30px rgba(15,46,43,0.08);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+  }
+  h1,h2,h3,h4{
+    font-family:'Poppins',system-ui,sans-serif;
+    line-height:1.2;
+    margin:0 0 .5em 0;
+  }
+  p{margin:0 0 1em 0;}
+  a{color:var(--teal-600);}
+  img{max-width:100%;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px;}
+  .wrap-narrow{max-width:720px;margin:0 auto;padding:0 20px;}
+
+  /* Quick exit */
+  #quick-exit{
+    position:fixed; top:14px; right:14px; z-index:9999;
+    background:var(--ink); color:#fff; border:none;
+    padding:10px 16px; border-radius:999px; font-family:'Inter',sans-serif;
+    font-weight:600; font-size:13px; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.25);
+    display:flex; align-items:center; gap:6px;
+    opacity:0.92;
+  }
+  #quick-exit:hover{opacity:1; background:#000;}
+  .exit-note{
+    position:fixed; top:56px; right:14px; z-index:9998; max-width:220px;
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+    font-size:11.5px; color:var(--ink-soft); box-shadow:var(--shadow); display:none;
+  }
+  #quick-exit:hover + .exit-note, .exit-note.show{display:block;}
+  @media (max-width:640px){
+    #quick-exit{top:auto; bottom:16px; right:14px;}
+    .exit-note{top:auto; bottom:60px; right:14px;}
+  }
+
+  /* Nav */
+  nav{
+    position:sticky; top:0; z-index:500; background:rgba(251,250,247,0.92);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
+  }
+  nav .navwrap{
+    max-width:920px; margin:0 auto; padding:14px 20px; display:flex;
+    align-items:center; justify-content:space-between; gap:12px;
+  }
+  .brand{display:flex; align-items:center; gap:9px; font-family:'Poppins'; font-weight:700; color:var(--teal-900); font-size:17px; text-decoration:none;}
+  .brand-dot{width:11px; height:11px; border-radius:50%; background:var(--coral);}
+  nav ul{list-style:none; display:flex; gap:22px; margin:0; padding:0;}
+  nav a.navlink{color:var(--ink-soft); text-decoration:none; font-weight:600; font-size:14.5px;}
+  nav a.navlink:hover{color:var(--teal-700);}
+  #nav-toggle{display:none; background:none; border:1px solid var(--line); border-radius:8px; padding:8px 10px; cursor:pointer;}
+  @media (max-width:640px){
+    nav ul{
+      display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:0;
+      background:#fff; border-bottom:1px solid var(--line); padding:8px 20px 14px;
+    }
+    nav ul.open{display:flex;}
+    nav ul li{border-top:1px solid var(--line);}
+    nav ul li:first-child{border-top:none;}
+    nav a.navlink{display:block; padding:13px 2px;}
+    #nav-toggle{display:block;}
+  }
+
+  /* Hero */
+  header.hero{
+    padding:64px 0 56px; background:
+      radial-gradient(1000px 500px at 85% -10%, var(--teal-100), transparent 60%);
+  }
+  .eyebrow{
+    display:inline-block; background:var(--teal-100); color:var(--teal-700);
+    font-weight:700; font-size:12.5px; letter-spacing:.04em; text-transform:uppercase;
+    padding:6px 14px; border-radius:999px; margin-bottom:18px;
+  }
+  h1.title{font-size:clamp(32px,5vw,50px); color:var(--teal-900); max-width:12ch;}
+  .lede{font-size:18px; color:var(--ink-soft); max-width:56ch;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:26px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:15.5px;
+    padding:14px 26px; border-radius:999px; text-decoration:none; cursor:pointer; border:2px solid transparent;
+    font-family:'Inter'; transition:transform .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--coral); color:#fff;}
+  .btn-primary:hover{background:var(--coral-dark);}
+  .btn-ghost{background:transparent; color:var(--teal-700); border-color:var(--teal-600);}
+  .btn-ghost:hover{background:var(--teal-100);}
+  .btn-wide{width:100%; justify-content:center;}
+  .btn[disabled]{opacity:.4; cursor:not-allowed;}
+
+  .trust-row{display:flex; gap:22px; flex-wrap:wrap; margin-top:36px; font-size:13.5px; color:var(--ink-soft);}
+  .trust-item{display:flex; align-items:center; gap:8px;}
+  .trust-item svg{flex:none;}
+
+  section{padding:64px 0;}
+  section.alt{background:var(--teal-900); color:#fff;}
+  section.alt h2, section.alt h3{color:#fff;}
+  section.alt .sub{color:#c9ddd8;}
+  .section-head{max-width:640px; margin-bottom:38px;}
+  .kicker{color:var(--coral); font-weight:700; font-size:12.5px; text-transform:uppercase; letter-spacing:.06em;}
+  .sub{color:var(--ink-soft); font-size:16px;}
+
+  /* Intro cards */
+  .grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  @media (max-width:720px){ .grid2,.grid3{grid-template-columns:1fr;} }
+  .info-card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow);}
+  .info-card h4{font-size:16.5px; color:var(--teal-900);}
+  .info-card p{color:var(--ink-soft); font-size:14.5px; margin:0;}
+
+  /* BITE categories */
+  .bite-cat{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    margin-bottom:16px; overflow:hidden; box-shadow:var(--shadow);
+  }
+  .bite-head{
+    display:flex; align-items:center; gap:16px; padding:22px 24px; cursor:pointer; user-select:none;
+    background:#fff;
+  }
+  .bite-num{
+    flex:none; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-family:'Poppins'; font-weight:700; font-size:18px; color:#fff;
+  }
+  .bite-head h3{margin:0; font-size:18px; color:var(--teal-900);}
+  .bite-head .tag{font-size:12.5px; color:var(--ink-soft); font-weight:500;}
+  .bite-chevron{margin-left:auto; transition:transform .2s ease; color:var(--ink-soft); flex:none;}
+  .bite-cat.open .bite-chevron{transform:rotate(180deg);}
+  .bite-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .bite-body-inner{padding:0 24px 24px 24px; color:var(--ink-soft); font-size:15px;}
+  .bite-body-inner ul{margin:10px 0; padding-left:20px;}
+  .bite-body-inner li{margin-bottom:6px;}
+  .example-toggle{
+    margin-top:14px; display:inline-flex; align-items:center; gap:7px; background:var(--teal-100);
+    color:var(--teal-700); border:none; padding:9px 15px; border-radius:999px; font-weight:600; font-size:13px; cursor:pointer;
+  }
+  .example-box{
+    display:none; margin-top:14px; background:#faf6ee; border-left:4px solid var(--amber); border-radius:8px;
+    padding:16px 18px; font-size:14px; color:var(--ink);
+  }
+  .example-box.show{display:block;}
+  .example-box blockquote{
+    margin:8px 0; padding-left:12px; border-left:3px solid var(--line); font-style:italic; color:var(--ink-soft); font-size:13.5px;
+  }
+  .c-behavior{background:var(--teal-600);}
+  .c-info{background:var(--amber-dark);}
+  .c-thought{background:var(--coral-dark);}
+  .c-emotion{background:#8e5bc9;}
+
+  /* Other groups strip */
+  .chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
+  .chip{background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#fff; padding:8px 16px; border-radius:999px; font-size:13.5px; font-weight:600;}
+
+  /* Quiz */
+  .quiz-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:34px; max-width:680px; margin:0 auto;
+  }
+  .quiz-intro-list{margin:18px 0; padding-left:0; list-style:none;}
+  .quiz-intro-list li{display:flex; gap:10px; align-items:flex-start; margin-bottom:12px; font-size:14.5px; color:var(--ink-soft);}
+  .quiz-intro-list li svg{flex:none; margin-top:2px; color:var(--teal-600);}
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-soft); font-weight:600; margin-bottom:8px;}
+  .progress-bar{height:8px; background:var(--teal-100); border-radius:999px; overflow:hidden;}
+  .progress-fill{height:100%; background:linear-gradient(90deg,var(--teal-500),var(--coral)); width:0%; transition:width .3s ease; border-radius:999px;}
+  .q-cat{display:inline-block; font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; padding:5px 11px; border-radius:999px; margin-bottom:14px; color:#fff;}
+  .q-text{font-size:20px; font-family:'Poppins'; font-weight:600; color:var(--teal-900); margin-bottom:22px;}
+  .answers{display:flex; flex-direction:column; gap:10px;}
+  .answer-btn{
+    text-align:left; background:#fff; border:2px solid var(--line); border-radius:var(--radius-sm);
+    padding:14px 18px; font-size:15px; font-weight:600; color:var(--ink); cursor:pointer; font-family:'Inter';
+  }
+  .answer-btn:hover{border-color:var(--teal-500); background:var(--teal-100);}
+  .answer-btn.selected{border-color:var(--teal-600); background:var(--teal-100); color:var(--teal-900);}
+  .quiz-nav{display:flex; justify-content:space-between; margin-top:26px; gap:12px;}
+  .quiz-nav .btn-ghost{border-color:var(--line); color:var(--ink-soft);}
+
+  /* Results */
+  .result-badge{
+    display:inline-flex; align-items:center; gap:10px; padding:10px 20px; border-radius:999px;
+    font-weight:700; font-size:14px; margin-bottom:18px;
+  }
+  .bar-row{margin-bottom:16px;}
+  .bar-row .lbl{display:flex; justify-content:space-between; font-size:13.5px; font-weight:600; color:var(--ink-soft); margin-bottom:6px;}
+  .bar-track{height:12px; background:var(--teal-100); border-radius:999px; overflow:hidden;}
+  .bar-fill{height:100%; border-radius:999px; width:0%; transition:width .8s ease;}
+
+  .help-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:10px;}
+  @media (max-width:720px){.help-grid{grid-template-columns:1fr;}}
+  .help-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow);}
+  .help-card .num{font-family:'Poppins'; font-weight:800; font-size:22px; color:var(--teal-700); display:block; margin-bottom:4px;}
+  .help-card h4{font-size:15.5px; margin-bottom:4px; color:var(--teal-900);}
+  .help-card p{font-size:13.5px; color:var(--ink-soft); margin-bottom:8px;}
+  .help-card a.link{font-size:13px; font-weight:700;}
+
+  .disclaimer-box{
+    background:#fff7ec; border:1px solid #f0d9ab; border-radius:var(--radius); padding:20px 22px; font-size:14px; color:#6b4e12; margin-top:20px;
+  }
+
+  /* Author / About */
+  .author-wrap{display:grid; grid-template-columns:120px 1fr; gap:28px; align-items:start;}
+  @media (max-width:640px){ .author-wrap{grid-template-columns:1fr;} }
+  .author-avatar{
+    width:110px; height:110px; border-radius:50%; background:linear-gradient(140deg,var(--teal-600),var(--coral));
+    display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Poppins'; font-weight:800; font-size:34px;
+    box-shadow:var(--shadow);
+  }
+  .author-badges{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
+  .author-badge{
+    display:inline-flex; align-items:center; gap:6px; background:var(--teal-100); color:var(--teal-700);
+    font-size:12.5px; font-weight:700; padding:6px 13px; border-radius:999px;
+  }
+  .author-story p{color:var(--ink-soft); font-size:15.5px; margin-bottom:14px;}
+  .author-story p:last-child{margin-bottom:0;}
+
+  .related-links{margin-top:28px; padding-top:24px; border-top:1px solid var(--line);}
+  .related-links-label{font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft); margin-bottom:12px;}
+  .related-links-row{display:flex; flex-wrap:wrap; gap:12px;}
+  .related-link-card{
+    display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:12px 16px; text-decoration:none; flex:1 1 260px; box-shadow:var(--shadow);
+  }
+  .related-link-card:hover{border-color:var(--teal-500); background:var(--teal-100);}
+  .related-link-icon{font-size:22px; flex:none;}
+  .related-link-title{display:block; font-weight:700; font-size:14px; color:var(--teal-900);}
+  .related-link-sub{display:block; font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+
+  /* Article */
+  .article-box{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:36px; max-width:820px; margin:0 auto;
+  }
+  @media (max-width:640px){ .article-box{padding:24px 20px;} }
+  .article-meta{
+    display:flex; flex-wrap:wrap; gap:8px 18px; font-size:13px; color:var(--ink-soft);
+    border-bottom:1px solid var(--line); padding-bottom:18px; margin-bottom:26px;
+  }
+  .article-title{font-size:24px; color:var(--teal-900); margin-bottom:6px;}
+  .article-subtitle{font-size:14.5px; color:var(--ink-soft); font-style:italic; margin-bottom:18px;}
+  .article-box h3{font-size:19px; color:var(--teal-900); margin-top:34px; margin-bottom:12px; border-left:4px solid var(--coral); padding-left:12px;}
+  .article-box h4{font-size:16px; color:var(--teal-700); margin-top:22px; margin-bottom:8px;}
+  .article-box p{font-size:15px; color:var(--ink); margin-bottom:14px;}
+  .article-box ul{padding-left:22px; margin-bottom:14px;}
+  .article-box li{margin-bottom:8px; font-size:15px; color:var(--ink);}
+  .article-box blockquote{
+    margin:14px 0; padding:12px 16px; border-left:3px solid var(--amber); background:#faf6ee;
+    font-style:italic; color:var(--ink-soft); font-size:14.5px; border-radius:0 8px 8px 0;
+  }
+  .abstract-box{
+    background:var(--teal-100); border-radius:var(--radius-sm); padding:20px 22px; margin-bottom:8px;
+  }
+  .abstract-box h4{margin-top:0; color:var(--teal-700); font-size:13px; text-transform:uppercase; letter-spacing:.04em;}
+  .abstract-box p{font-size:14.5px; color:var(--teal-900); margin-bottom:10px;}
+  .keywords{font-size:13px; color:var(--teal-700);}
+  details.article-toggle{max-width:820px; margin:0 auto;}
+  details.article-toggle > summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  details.article-toggle > summary::-webkit-details-marker{display:none;}
+
+  footer{padding:44px 0; background:var(--teal-900); color:#c9ddd8; font-size:13.5px;}
+  footer a{color:#fff;}
+  footer .foot-wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+
+  .hidden{display:none !important;}
+  .center{text-align:center;}
+  .small{font-size:13px; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<button id="quick-exit" onclick="quickExit()" aria-label="Szybkie wyjście ze strony">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  Szybkie wyjście
+</button>
+<div class="exit-note">Jeśli ktoś może zobaczyć ten ekran — kliknij, a natychmiast przeniesiemy Cię na inną stronę i usuniemy tę z historii "wstecz".</div>
+
+<nav>
+  <div class="navwrap">
+    <a href="#top" class="brand"><span class="brand-dot"></span> Wolna Głowa</a>
+    <ul id="nav-list">
+      <li><a class="navlink" href="#model">Model BITE</a></li>
+      <li><a class="navlink" href="#o-mnie">O mnie</a></li>
+      <li><a class="navlink" href="#test">Test</a></li>
+      <li><a class="navlink" href="#pomoc">Pomoc</a></li>
+    </ul>
+    <button id="nav-toggle" aria-label="Otwórz menu" onclick="toggleNav()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Test oparty na modelu BITE Stephena Hassana</span>
+    <h1 class="title">Twoja grupa Cię wspiera — czy kontroluje?</h1>
+    <p class="lede">Czasem trudno to zauważyć od środka. Ten test pomoże Ci spojrzeć na Twoją wspólnotę, ruch, kościół czy grupę okiem psychologii — bez oceniania, bez presji, w Twoim tempie.</p>
+    <div class="cta-row">
+      <a href="#test" class="btn btn-primary">
+        Zrób test (5 minut)
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#model" class="btn btn-ghost">Najpierw poznaj model BITE</a>
+    </div>
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a7a70" stroke-width="2.2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+        Nic nie zapisujemy — wynik widzisz tylko Ty
+      </div>
+      <div class="trust-item">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a7a70" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        Bez logowania, bez podawania danych
+      </div>
+      <div class="trust-item">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a7a70" stroke-width="2.2"><path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M4 19.5A2.5 2.5 0 006.5 22H20"/></svg>
+        To narzędzie edukacyjne, nie diagnoza
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="czym-jest">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Zacznijmy od podstaw</span>
+      <h2>Nie każda wspólnota to sekta. Ale niektóre naprawdę kontrolują ludzi.</h2>
+      <p class="sub">Grupa destrukcyjna nie musi wyglądać jak w filmach. To może być kościół, wspólnota modlitewna, grupa rozwoju osobistego, „rodzina” online, siłownia z guru na czele albo firma MLM. Łączy je jedno: stopniowo przejmują kontrolę nad tym, jak myślisz, co czujesz, z kim się spotykasz i co robisz.</p>
+    </div>
+    <div class="grid3">
+      <div class="info-card">
+        <h4>🧠 Nie chodzi o wiarę</h4>
+        <p>Ten test nie ocenia Twojej religii, światopoglądu ani duchowości. Ocenia <strong>metody kontroli</strong> — a te mogą wystąpić w dowolnej grupie, religijnej i świeckiej.</p>
+      </div>
+      <div class="info-card">
+        <h4>🔍 Punkt wyjścia, nie wyrok</h4>
+        <p>Wynik testu to sygnał, nie diagnoza. Ma pomóc Ci zauważyć wzorce, o których warto porozmawiać z kimś zaufanym.</p>
+      </div>
+      <div class="info-card">
+        <h4>💬 Stworzone z doświadczenia</h4>
+        <p>Ten projekt powstał na bazie pracy psychologicznej o modelu BITE i osobistych doświadczeń związanych z wyjściem z grupy o cechach sekty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="model" style="background:var(--teal-100);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Narzędzie</span>
+      <h2>Czym jest model BITE?</h2>
+      <p class="sub">BITE to skrót od <strong>Behavior, Information, Thought, Emotion</strong> — cztery obszary, w których grupy destrukcyjne przejmują kontrolę nad członkami. Model stworzył <strong>Stephen Hassan</strong>, amerykański terapeuta, który sam w młodości był członkiem Kościoła Zjednoczeniowego (tzw. sekty Moona). Po wyjściu z grupy poświęcił karierę badaniu psychomanipulacji i pomaganiu osobom uwikłanym w destrukcyjne wspólnoty.</p>
+    </div>
+
+    <div class="bite-cat" data-color="behavior">
+      <div class="bite-head" onclick="toggleCat(this)">
+        <div class="bite-num c-behavior">B</div>
+        <div>
+          <h3>Kontrola zachowania</h3>
+          <span class="tag">Behavior Control</span>
+        </div>
+        <svg class="bite-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="bite-body">
+        <div class="bite-body-inner">
+          <p>Grupa reguluje to, co robisz na co dzień: gdzie mieszkasz, jak się ubierasz, z kim się spotykasz, jak wydajesz pieniądze, ile czasu poświęcasz grupie. Twoje decyzje wymagają akceptacji liderów, a nieposłuszeństwo jest karane — wprost albo przez wykluczenie z relacji.</p>
+          <ul>
+            <li>Obowiązkowe spotkania i aktywności, których pominięcie ma konsekwencje</li>
+            <li>Zasady dotyczące ubioru, wyglądu, diety, snu, wolnego czasu</li>
+            <li>Ograniczanie kontaktów spoza grupy, także z rodziną</li>
+            <li>Ważne decyzje życiowe wymagają zgody lidera lub starszyzny</li>
+          </ul>
+          <button class="example-toggle" onclick="toggleExample(this)">Zobacz przykład: Świadkowie Jehowy ▾</button>
+          <div class="example-box">
+            <p>Uczestnictwo w zebraniach i głoszeniu jest obowiązkiem — jego zaniechanie może prowadzić do uznania za „złe towarzystwo”. Świadkowie są też zachęcani do ograniczania kontaktów z osobami spoza wspólnoty, w tym z niewierzącą rodziną.</p>
+            <blockquote>„Nie szukaj wymówek, żeby móc kontaktować się z wykluczonym krewnym, na przykład za pośrednictwem SMS-ów czy e-maili.”</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bite-cat" data-color="info">
+      <div class="bite-head" onclick="toggleCat(this)">
+        <div class="bite-num c-info">I</div>
+        <div>
+          <h3>Kontrola informacji</h3>
+          <span class="tag">Information Control</span>
+        </div>
+        <svg class="bite-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="bite-body">
+        <div class="bite-body-inner">
+          <p>Grupa decyduje, jakie informacje do Ciebie docierają. Krytyczne źródła są odradzane albo zakazane, a osoby, które je udostępniają, przedstawia się jako wrogów, kłamców albo „chorych”. Czasem grupa zataja własną historię lub kontrowersje.</p>
+          <ul>
+            <li>Zniechęcanie do czytania/oglądania materiałów krytycznych wobec grupy</li>
+            <li>Nazywanie krytyków „odstępcami”, „wrogami” czy „chorymi psychicznie”</li>
+            <li>Ukrywanie niewygodnych faktów o historii lub finansach grupy</li>
+            <li>Zachęcanie do donoszenia liderom o wątpliwościach innych</li>
+          </ul>
+          <button class="example-toggle" onclick="toggleExample(this)">Zobacz przykład: Świadkowie Jehowy ▾</button>
+          <div class="example-box">
+            <p>Literatura spoza organizacji — w tym publikacje naukowe — jest przedstawiana jako duchowo niebezpieczna. Jedynym akceptowanym źródłem wiedzy mają być wydawnictwa Towarzystwa Strażnica.</p>
+            <blockquote>„Próby obalania argumentów odstępców lub osób mających krytyczne zdanie o organizacji Jehowy nie przyniosą nam pożytku (…) jest złe i stanowi duchowe zagrożenie.”</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bite-cat" data-color="thought">
+      <div class="bite-head" onclick="toggleCat(this)">
+        <div class="bite-num c-thought">T</div>
+        <div>
+          <h3>Kontrola myśli</h3>
+          <span class="tag">Thought Control</span>
+        </div>
+        <svg class="bite-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="bite-body">
+        <div class="bite-body-inner">
+          <p>Grupa uczy Cię myśleć w określony sposób: czarno-białe podziały na „my i oni”, gotowe frazesy zamiast własnych przemyśleń, a wątpliwości traktowane jako grzech, słabość albo „zły duch”. Z czasem trudno jest samodzielnie, krytycznie ocenić samą grupę.</p>
+          <ul>
+            <li>Podział świata na „prawdziwych/oświeconych” i „resztę w błędzie”</li>
+            <li>Wątpliwości = brak wiary, zdrada albo choroba</li>
+            <li>Powtarzalne slogany i frazesy trudne do wytłumaczenia z zewnątrz</li>
+            <li>Rytuały (modlitwa, śpiew, medytacja) używane, by „zagłuszyć” trudne myśli</li>
+          </ul>
+          <button class="example-toggle" onclick="toggleExample(this)">Zobacz przykład: Świadkowie Jehowy ▾</button>
+          <div class="example-box">
+            <p>Świat dzieli się na organizację (posiadającą „jedyną prawdę”) i resztę — będącą pod wpływem Szatana. Wątpliwości wobec nauk są przedstawiane jako niebezpieczne.</p>
+            <blockquote>„Rozbudzanie wątpliwości to jedna z najskuteczniejszych metod Szatana.”</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bite-cat" data-color="emotion">
+      <div class="bite-head" onclick="toggleCat(this)">
+        <div class="bite-num c-emotion">E</div>
+        <div>
+          <h3>Kontrola emocji</h3>
+          <span class="tag">Emotion Control</span>
+        </div>
+        <svg class="bite-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="bite-body">
+        <div class="bite-body-inner">
+          <p>Grupa steruje Twoimi emocjami — wzbudza poczucie winy, wstydu i strachu (przed karą, potępieniem, utratą bliskich), a jednocześnie daje poczucie przynależności i miłości, ale <em>warunkowej</em> — zależnej od posłuszeństwa i zaangażowania.</p>
+          <ul>
+            <li>Silne poczucie winy za niespełnianie oczekiwań grupy</li>
+            <li>Strach przed karą, potępieniem albo katastrofą po odejściu</li>
+            <li>Groźba utraty relacji z bliskimi, którzy zostają w grupie (ostracyzm)</li>
+            <li>Poczucie własnej wartości uzależnione od akceptacji grupy</li>
+          </ul>
+          <button class="example-toggle" onclick="toggleExample(this)">Zobacz przykład: Świadkowie Jehowy ▾</button>
+          <div class="example-box">
+            <p>Osoby, które odchodzą, tracą kontakt z bliskimi pozostającymi w organizacji — łącznie z najbliższą rodziną. Odejście wiąże się z silnym poczuciem winy i lękiem przed odrzuceniem przez Boga i wspólnotę.</p>
+            <blockquote>„Zatwardziałego grzesznika trzeba wykluczyć — pozbawić kontaktu z czystym ludem Jehowy.”</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker" style="color:#ffb199;">Pamiętaj</span>
+      <h2>To nie dotyczy tylko religii</h2>
+      <p class="sub">Model BITE opisuje <em>metody</em> kontroli, a te same mechanizmy pojawiają się w bardzo różnych środowiskach:</p>
+    </div>
+    <div class="chips">
+      <span class="chip">Kościoły i wspólnoty religijne</span>
+      <span class="chip">Grupy „rozwoju osobistego” i coachingu</span>
+      <span class="chip">Guru fitness / dietetyczni</span>
+      <span class="chip">Struktury MLM i „biznesowe”</span>
+      <span class="chip">Zamknięte społeczności online</span>
+      <span class="chip">Grupy ideologiczne i polityczne</span>
+      <span class="chip">Toksyczne „rodziny” i relacje grupowe</span>
+    </div>
+  </div>
+</section>
+
+<section id="o-mnie">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Dlaczego ta strona powstała</span>
+      <h2>O mnie</h2>
+    </div>
+    <div class="author-wrap">
+      <div class="author-avatar">PW</div>
+      <div class="author-story">
+        <div class="author-badges">
+          <span class="author-badge">🎓 Student psychologii, AHE w Łodzi</span>
+          <span class="author-badge">📖 Autor analizy naukowej o modelu BITE</span>
+          <span class="author-badge">🕊️ Ocalały ze Świadków Jehowy</span>
+        </div>
+        <p>Nazywam się Paweł Wasiak. Wychowałem się jako Świadek Jehowy — w organizacji, którą przez wiele lat uznawałem za jedyną słuszną drogę i jedyne bezpieczne miejsce na świecie. Obowiązkowe zebrania, głoszenie od drzwi do drzwi, zasady dotyczące niemal każdej dziedziny życia, lęk przed wątpliwościami i przed „światem na zewnątrz” — to była moja codzienność przez wiele lat.</p>
+        <p>Wyjście z organizacji nie było jednym wydarzeniem, tylko długim procesem. Najpierw pojedyncze pytania, na które nie potrafiłem sobie odpowiedzieć zgodnie z tym, czego mnie uczono. Potem coraz większa świadomość, jak bardzo moje myśli, emocje i decyzje były przez lata kształtowane przez grupę, a nie przeze mnie samego. To doświadczenie — i to, ile czasu zajęło mi zrozumienie mechanizmów, które na mnie działały — było bezpośrednim powodem, dla którego zdecydowałem się studiować psychologię na Akademii Humanistyczno-Ekonomicznej w Łodzi.</p>
+        <p>W trakcie studiów natrafiłem na model BITE Stephena Hassana i poczułem, że w końcu mam narzędzie, które nazywa po imieniu to, czego przez lata nie potrafiłem nazwać. Napisałem o nim artykuł naukowy, analizując na przykładzie Świadków Jehowy, jak dokładnie wygląda kontrola zachowania, informacji, myśli i emocji w praktyce — możesz przeczytać go w całości poniżej.</p>
+        <p>Tę stronę stworzyłem z myślą o osobach, które dziś są w podobnym miejscu, w jakim ja byłem kilka lat temu: czują, że coś jest nie tak, ale nie mają jeszcze słów ani narzędzi, żeby to nazwać. Jeśli to jesteś Ty — nie jesteś sam.</p>
+        <div class="cta-row" style="margin-top:20px;">
+          <a href="#artykul" class="btn btn-ghost">Przeczytaj mój artykuł naukowy ↓</a>
+        </div>
+        <div class="related-links">
+          <p class="related-links-label">Zobacz też moje inne projekty</p>
+          <div class="related-links-row">
+            <a href="https://icd11-dsm5-search.netlify.app/" target="_blank" rel="noopener" class="related-link-card">
+              <span class="related-link-icon">🔎</span>
+              <span>
+                <span class="related-link-title">Wyszukiwarka ICD-11 / DSM-5</span>
+                <span class="related-link-sub">icd11-dsm5-search.netlify.app</span>
+              </span>
+            </a>
+            <a href="https://www.youtube.com/@psychologia_wasiak" target="_blank" rel="noopener" class="related-link-card">
+              <span class="related-link-icon">▶️</span>
+              <span>
+                <span class="related-link-title">Kanał YouTube — Psychologia Wasiak</span>
+                <span class="related-link-sub">youtube.com/@psychologia_wasiak</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="artykul" style="background:var(--teal-100);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Praca naukowa</span>
+      <h2>Jak rozpoznać sektę lub grupę destrukcyjną przy pomocy modelu BITE — na przykładzie Świadków Jehowy</h2>
+      <p class="sub">Pełny tekst artykułu, na podstawie którego powstała ta strona.</p>
+    </div>
+
+    <details class="article-toggle" id="article-details">
+      <summary class="btn btn-primary" id="article-summary">Rozwiń i przeczytaj cały artykuł ↓</summary>
+
+      <div class="article-box" style="margin-top:22px;">
+        <div class="article-meta">
+          <span>Paweł Wasiak</span>
+          <span>ORCID: <a href="https://orcid.org/0009-0004-6555-3156" target="_blank" rel="noopener">0009-0004-6555-3156</a></span>
+          <span>e-mail: pwasiak30@gmail.com</span>
+        </div>
+
+        <div class="abstract-box">
+          <h4>Abstrakt</h4>
+          <p>Artykuł przedstawia zastosowanie modelu BITE (Behavior, Information, Thought, Emotion Control) autorstwa Stephena Hassana jako narzędzia do identyfikacji cech sekt i grup destrukcyjnych. Analizie poddano grupę Świadków Jehowy jako przykład organizacji religijnej, która w wielu aspektach odpowiada kryteriom kontroli umysłu zdefiniowanym w modelu. Celem pracy jest wykazanie użyteczności modelu BITE w ocenie potencjalnie destrukcyjnych praktyk we wspólnotach religijnych.</p>
+          <p class="keywords"><strong>Słowa kluczowe:</strong> model BITE, Stephen Hassan, kontrola umysłu, psychomanipulacja, grupy destrukcyjne, Świadkowie Jehowy, sekty religijne, psychologia sekty, wsparcie psychologiczne, trauma postkultowa</p>
+        </div>
+
+        <h3>Wstęp</h3>
+        <p>W ostatnich dekadach wzrosła świadomość istnienia grup, które poprzez intensywną kontrolę wpływają na jednostki, prowadząc do ich psychicznego, emocjonalnego i społecznego podporządkowania. Stephen Hassan, ekspert ds. psychomanipulacji, opracował model BITE jako narzędzie diagnozowania tego typu praktyk.</p>
+        <p>Hassan, zanim został jednym z czołowych ekspertów w dziedzinie psychomanipulacji i sekt, sam był członkiem destrukcyjnej grupy – Kościoła Zjednoczeniowego (znanego też jako sekta Moona). Doświadczenia, które przeżył jako młody dorosły pod wpływem indoktrynacji i silnej kontroli grupy, stały się fundamentem jego późniejszej pracy terapeutycznej i naukowej. Po uwolnieniu się z sekty, Hassan poświęcił swoje życie na badanie metod kontroli umysłu oraz pomaganie osobom uwikłanym w destrukcyjne relacje z grupami o charakterze sekciarskim. Jego model BITE stanowi podsumowanie dekad pracy klinicznej, badań oraz własnych doświadczeń jako byłego członka sekty.</p>
+        <p>Świadkowie Jehowy, choć formalnie uznani za legalną wspólnotę religijną, są często wskazywani przez byłych członków i badaczy jako organizacja o cechach sekty destrukcyjnej.</p>
+
+        <h3>Metodologia</h3>
+        <p>Celem niniejszego artykułu jest zastosowanie modelu BITE do analizy działań i struktur funkcjonujących w organizacji Świadków Jehowy. W ramach badania posłużono się metodą studium przypadku (case study), która umożliwiła dogłębną analizę konkretnej grupy w kontekście modelu psychomanipulacji. Głównym źródłem danych były relacje byłych członków, literatura naukowa oraz oficjalne publikacje organizacji (m.in. Strażnica). Dla każdego z czterech elementów modelu BITE zidentyfikowano konkretne działania lub normy organizacji, które mogą stanowić przykład stosowania kontroli umysłu. Artykuł nie aspiruje do obiektywnej oceny religii Świadków Jehowy, lecz ma charakter analityczny i opiera się na dostępnych danych z perspektywy psychologii.</p>
+
+        <h3>Analiza modelu BITE na przykładzie Świadków Jehowy</h3>
+
+        <h4>1. Kontrola zachowania (Behavior Control)</h4>
+        <p>Organizacja Świadków Jehowy precyzyjnie reguluje codzienne zachowania członków. Zakazy dotyczą m.in. świętowania urodzin, obchodzenia świąt państwowych i religijnych, służb wojskowych, transfuzji krwi oraz kontaktów z osobami spoza wspólnoty, w tym nawet z rodziną. Takie ograniczenia mogą prowadzić do izolacji społecznej i uzależnienia od grupy. Przykłady takich technik:</p>
+        <p><strong>Obowiązkowe spotkania i zebrania:</strong> Świadkowie Jehowy są zobowiązani do regularnego uczestnictwa w zebraniach, organizowanych w Salach Królestwa oraz do udziału w głoszeniu, które jest nie tylko zaleceniem, ale obowiązkiem. Niezrealizowanie tego obowiązku może prowadzić do wykluczenia lub ostracyzmu w społeczności (można być uznanym za „złe towarzystwo”, co skutkuje odsuwaniem się od danej osoby innych członków tej grupy).</p>
+        <blockquote>„Jaki obraz przedstawiają ci, którzy mają zwyczaj opuszczania zebrań zborowych? Czy nie widać u nich zastoju pod względem duchowym? Czy wydawanie owoców ducha nie przychodzi im z trudnością? U kogo zdarzają się najczęściej konflikty i niepowodzenia oraz skłonność do szemrania i narzekania? I kto najczęściej przychodzi na zebrania nieprzygotowany lub zasypia podczas wykładu? Takie osoby zazwyczaj opanowuje gnuśność duchowa.”</blockquote>
+        <p><strong>Zasady dotyczące codziennych zachowań:</strong> Istnieje szereg zasad, które dotyczą życia codziennego: od tego, jakie filmy oglądać, przez sposób ubierania się, aż po zakaz uczestnictwa w pewnych wydarzeniach, takich jak uroczystości państwowe czy święta religijne. Grupa wymusza przestrzeganie tych zasad, a nieposłuszeństwo jest uznawane za grzech.</p>
+        <blockquote>„Chrześcijanka może zadać sobie parę pytań w rodzaju: «Co o moim ubiorze sądzi otoczenie? Czy członkowie zboru nie są zakłopotani, skrępowani bądź zażenowani moim wyglądem?» I chociażby przysługiwało jej prawo do jakiegoś stylu ubierania się lub czesania, na pewno nie będzie się przy nim upierać, gdy zauważy negatywne reakcje.”</blockquote>
+        <blockquote>„Świadkowie Jehowy chętnie poznają historię swojego kraju, ale nie biorą udziału w uroczystościach takich, jak (…) Dzień Niepodległości.”</blockquote>
+        <p><strong>Izolacja od osób spoza grupy:</strong> Świadkowie Jehowy są zachęcani (a niekiedy zmuszani) do izolowania się od osób spoza organizacji, w tym także od rodziny i przyjaciół, którzy nie są Świadkami Jehowy (zezwala się na epizodyczne kontakty, jednak osoby spoza tej grupy nie mogą być uznawane za przyjaciół). Osoby, które decydują się opuścić grupę, są często odrzucane i traktowane jako „grzesznicy”, zrywane są z nimi wszelkie kontakty (dotyczy to nawet najbliższych więzi rodzinnych).</p>
+        <blockquote>„Czy nasze kontakty z krewnymi i sąsiadami wyglądają dalej tak samo, jak wtedy, gdy nie byliśmy jeszcze chrześcijanami? Czy nie powinniśmy raczej zrewidować te stosunki i świadomie zakreślić stosowne granice?”</blockquote>
+        <blockquote>„Nie szukaj wymówek, żeby móc kontaktować się z wykluczonym krewnym, na przykład za pośrednictwem SMS-ów czy e-maili.”</blockquote>
+        <blockquote>„Szczerze mówiąc, jeśli twoi przyjaciele nie kochają Jehowy, to ich nie potrzebujesz.”</blockquote>
+
+        <h4>2. Kontrola informacji (Information Control)</h4>
+        <p>Członkowie są zniechęcani do czytania krytycznych materiałów na temat organizacji. Informacje z zewnątrz, w tym naukowe czy prasowe, często określane są jako „apostazja”, a ich rozpowszechnianie może skutkować wykluczeniem. Jedynym akceptowanym źródłem wiedzy są publikacje Towarzystwa Strażnica. W przypadku Świadków Jehowy obserwujemy:</p>
+        <p><strong>Brak dostępu do alternatywnych źródeł informacji:</strong> Świadkowie Jehowy są zachęcani (a niekiedy wręcz zmuszani) do polegania wyłącznie na literaturze wydanej przez organizację (np. czasopismo „Strażnica” oraz „Przebudźcie się!”). Literatura spoza organizacji, w tym książki naukowe czy opracowania teologiczne (w szczególności negatywnie wypowiadające się na temat Świadków), są traktowane jako szkodliwe i niegodne uwagi.</p>
+        <blockquote>„Próby obalania argumentów odstępców lub osób mających krytyczne zdanie o organizacji Jehowy nie przyniosą nam pożytku. Zgłębianie upowszechnianych przez nich informacji — czy to w formie drukowanej, czy elektronicznej — jest złe i stanowi duchowe zagrożenie.”</blockquote>
+        <blockquote>„Powinniśmy studiować Biblię pod kątem tematu, który nas dotyczy. Możemy poszukać dodatkowych informacji, korzystając z różnorodnych narzędzi, które zapewnia organizacja Boża.”</blockquote>
+        <p><strong>Demonizowanie przeciwników:</strong> Wszystko, co pochodzi spoza organizacji, jest przedstawiane jako „fałszywe” lub „szkodliwe”, a osoby, które krytykują organizację, są nazywane „ludźmi bezprawia” lub „antychrystami”. Grupa wykazuje silną tendencję do izolowania swoich członków od innych światopoglądów.</p>
+        <blockquote>„Odstępcy «chorują pod względem umysłowym».”</blockquote>
+        <p><strong>Manipulowanie historią organizacji:</strong> Świadkowie Jehowy są nauczani, że tylko ich organizacja posiada prawdziwe nauki biblijne. Historia, jak również ewentualne kontrowersje związane z organizacją, są skrupulatnie ukrywane lub przedstawiane w sposób korzystny, tak aby utrzymać w członkach przekonanie o jej „nieomylności”.</p>
+
+        <h4>3. Kontrola myśli (Thought Control)</h4>
+        <p>Wspólnota kształtuje sposób myślenia swoich członków poprzez regularne zebrania, studia biblijne i powtarzanie doktrynalnych twierdzeń. Krytyczne myślenie wobec doktryny jest potępiane, a wątpliwości duchowe traktowane jako oznaka słabej wiary lub wpływu szatana. Przykłady kontrolowania myśli:</p>
+        <p><strong>Czarno-biały obraz świata:</strong> Świadkowie Jehowy są nauczani, że tylko ich organizacja ma prawdziwe zrozumienie Biblii, a cała reszta świata jest w błędzie. Inne wyznania religijne i poglądy polityczne są uznawane za „fałszywe” i niebezpieczne. To tworzy czarno-biały obraz rzeczywistości, w którym wszystko, co nie należy do organizacji, jest złe.</p>
+        <blockquote>„Jehowa (…) wyzwolił nas ze świata Szatana.”</blockquote>
+        <blockquote>„Powinniśmy starać się motywować ich [osoby rekrutowane] do wprowadzania w czyn tego, czego się uczą, do oddania się Jehowie i przyjęcia chrztu. Tylko wtedy przeżyją dzień Jehowy.”</blockquote>
+        <blockquote>„Koalicja narodów zaatakuje lud Boży, a Jehowa wykona wyrok na niegodziwych w Armagedonie.”</blockquote>
+        <p><strong>Zakaz wątpliwości:</strong> Wątpliwości co do nauk Świadków Jehowy są traktowane jako przejaw braku wiary i nieposłuszeństwa wobec Boga. Grupa stara się eliminować wszelkie formy krytycznego myślenia, a osoby, które zaczynają wątpić, są często uznawane za zagrożenie i mogą zostać wykluczone.</p>
+        <blockquote>„Rozbudzanie wątpliwości to jedna z najskuteczniejszych metod Szatana.”</blockquote>
+        <p><strong>Myślenie zgodne z linią organizacji:</strong> Świadkowie Jehowy są zobowiązani do ścisłego przestrzegania nauk i nauczania organizacji, a każde indywidualne myślenie i wyrażanie opinii przeciwnej temu, co naucza organizacja, jest traktowane jako przejaw „buntu”.</p>
+        <blockquote>„Wskazówki organizacji Jehowy, od których będzie zależało nasze życie, według ludzkiej oceny mogą się wtedy wydać niepraktyczne. Wszyscy musimy być gotowi usłuchać każdego polecenia, jakie otrzymamy, bez względu na to, czy z naszego lub strategicznego punktu widzenia będzie ono rozsądne, czy też nie.”</blockquote>
+
+        <h4>4. Kontrola emocji (Emotional Control)</h4>
+        <p>W organizacji stosuje się silną kontrolę emocjonalną, w tym poczucie winy i lęk przed wykluczeniem lub Armagedonem. Członkowie często żyją w stanie napięcia emocjonalnego, wynikającego z lęku przed potępieniem lub zerwaniem więzi społecznych po wykluczeniu z organizacji. Oto niektóre techniki kontrolowania emocji:</p>
+        <p><strong>Wzbudzanie poczucia winy i wstydu:</strong> Członkowie, którzy nie przestrzegają zasad, czują się winni i wstydzą się swojego zachowania. Dodatkowo, jeśli członek opuści organizację, może czuć się „odrzucony” przez Boga oraz swoich bliskich. Wykluczeni członkowie są traktowani jak „niewierni”, a ich emocje są manipulowane, aby poczuli się winni za odejście.</p>
+        <blockquote>„Zatwardziali grzesznicy (…) stanowią dla innych zagrożenie pod względem moralnym i duchowym (…) Niczym żołnierze falangi, którzy porzucili swe tarcze, wystawiają na niebezpieczeństwo nie tylko samych siebie, lecz także swych towarzyszy.”</blockquote>
+        <p><strong>Lęk przed wykluczeniem i ostracyzmem:</strong> Osoby, które opuściły organizację, są często wykluczane z życia społecznego, co wiąże się z ogromnym stresem emocjonalnym. Utrata kontaktów z rodziną i przyjaciółmi, którzy pozostają w organizacji, może prowadzić do poczucia całkowitej izolacji i porzucenia.</p>
+        <blockquote>„Niestety, część osób, które popełniły poważne grzechy, zostaje usunięta ze zboru. W takiej sytuacji «przestajemy utrzymywać z nimi kontakty».”</blockquote>
+        <blockquote>„Zatwardziałego grzesznika trzeba wykluczyć — pozbawić kontaktu z czystym ludem Jehowy.”</blockquote>
+        <p><strong>Utrzymywanie uzależnienia emocjonalnego od grupy:</strong> Grupa stworzyła system, w którym członkowie uzależniają swoje emocje i poczucie wartości od akceptacji przez innych. Grupa zapewnia poczucie wspólnoty, ale tylko pod warunkiem pełnej lojalności i posłuszeństwa.</p>
+        <blockquote>„Kiedyś nie wiedziałam, co to szczęście, nawet we własnej rodzinie. Miłość w działaniu po raz pierwszy zobaczyłam wśród Świadków Jehowy. Każdy, kto chce być naprawdę szczęśliwy i zadowolony, powinien się znaleźć w duchowym raju.”</blockquote>
+
+        <h3>Jak rozpoznać sektę w oparciu o model BITE?</h3>
+        <p>Świadkowie Jehowy to przykład grupy, która stosuje wiele technik manipulacji psychologicznej, prowadzących do pełnej kontroli nad swoimi członkami. Wykorzystując model BITE, możemy zauważyć następujące elementy charakterystyczne:</p>
+        <ul>
+          <li><strong>Kontrola zachowań:</strong> obowiązkowe spotkania, ścisłe zasady dotyczące codziennego życia i ograniczenie kontaktów z osobami spoza grupy.</li>
+          <li><strong>Kontrola informacji:</strong> izolacja od zewnętrznych źródeł informacji, demonizowanie przeciwników i manipulowanie historią organizacji.</li>
+          <li><strong>Kontrola myśli:</strong> narzucanie czarno-białego obrazu świata, zakaz wątpliwości i myślenie zgodne z doktryną grupy.</li>
+          <li><strong>Kontrola emocji:</strong> manipulacja emocjami członków, wzbudzanie poczucia winy, strachu i wstydu oraz lęk przed wykluczeniem.</li>
+        </ul>
+        <p>Jeśli grupa, do której należysz, zaczyna wykorzystywać podobne techniki manipulacji, może to być sygnał, że mamy do czynienia z sektą lub grupą destrukcyjną.</p>
+
+        <h3>Zastosowanie modelu BITE w praktyce psychologicznej — na przykładzie Świadków Jehowy</h3>
+        <p>Model BITE autorstwa Stephena Hassana to skuteczne narzędzie analityczne, które umożliwia psychologowi rozpoznanie, w jakim stopniu dana grupa społeczna, religijna lub ideologiczna kontroluje jednostkę poprzez cztery obszary: zachowanie (Behavior), informację (Information), myślenie (Thought), emocje (Emotion).</p>
+        <p>W praktyce psychologicznej model BITE może być wykorzystywany na wielu poziomach – zarówno diagnostycznym, jak i terapeutycznym. Pomaga on zidentyfikować poziom uwikłania jednostki w relację z grupą o charakterze destrukcyjnym, a także wspiera proces wychodzenia z takiej relacji i odbudowywania autonomii psychicznej.</p>
+
+        <h4>1. Diagnoza i rozpoznanie uwikłania</h4>
+        <p>Psycholog może wykorzystać model BITE do zadania precyzyjnych pytań diagnostycznych. W przypadku Świadków Jehowy może to być np.:</p>
+        <ul>
+          <li>Czy czujesz przymus uczestniczenia w zebraniach kilka razy w tygodniu?</li>
+          <li>Czy bez skrępowania kontaktujesz się z osobami spoza wspólnoty, w tym z rodziną, która nie jest Świadkami?</li>
+          <li>Jak reagujesz na literaturę religijną spoza twojej organizacji, w szczególności tę o negatywnym zabarwieniu odnośnie Świadków?</li>
+          <li>Czy zdarzyło Ci się odczuwać winę lub wstyd, gdy opuściłeś zebranie lub miałeś wątpliwości wobec nauk organizacji?</li>
+        </ul>
+        <p>Takie pytania pozwalają ocenić, czy i w jakim zakresie dana osoba znajduje się pod wpływem systemu kontroli charakterystycznego dla grupy destrukcyjnej.</p>
+
+        <h4>2. Psychoedukacja i demistyfikacja wpływu grupy</h4>
+        <p>Model BITE stanowi użyteczne narzędzie do prowadzenia psychoedukacji. W rozmowie z pacjentem psycholog może pokazać, jak Świadkowie Jehowy:</p>
+        <ul>
+          <li>Kontrolują zachowanie – wymagając uczestnictwa w głoszeniu, ograniczając kontakty towarzyskie czy narzucając surowe zasady dotyczące ubioru, seksualności, obchodzenia świąt czy wykształcenia.</li>
+          <li>Kontrolują informacje – nakazując korzystanie wyłącznie z literatury organizacji i przestrzegając przed „apostackimi” treściami w internecie czy literaturze naukowej.</li>
+          <li>Kontrolują myśli – ucząc, że tylko organizacja ma „jedyną prawdę”, a wszelkie wątpliwości są grzechem i dowodem niewierności wobec Boga.</li>
+          <li>Kontrolują emocje – wywołując lęk przed Armagedonem, odrzuceniem przez rodzinę czy wykluczeniem ze wspólnoty, a także wzmacniając poczucie winy za „nieposłuszeństwo”.</li>
+        </ul>
+        <p>Demistyfikacja tych mechanizmów pozwala osobie uwikłanej w grupę zrozumieć, że wiele z jej przekonań, lęków i reakcji nie pochodzi z niej samej, ale zostało jej narzucone w ramach systemu kontroli.</p>
+
+        <h4>3. Wsparcie w procesie odchodzenia i odbudowy tożsamości</h4>
+        <p>Pacjenci, którzy opuszczają Świadków Jehowy, często doświadczają traumy opuszczenia, silnego poczucia pustki, straty i dezorientacji. Model BITE pozwala im uporządkować swoje doświadczenia i nadać im sens. Psycholog może pomóc im:</p>
+        <ul>
+          <li>rozpoznać i przeformułować przekonania narzucone przez organizację;</li>
+          <li>przepracować lęk przed karą Bożą i wykluczeniem społecznym;</li>
+          <li>odzyskać prawo do samodzielnego myślenia i podejmowania decyzji;</li>
+          <li>wzmocnić własne granice psychiczne i odbudować poczucie sprawczości.</li>
+        </ul>
+        <p><em>Przykład:</em> osoba, która od lat nie obchodziła urodzin lub świąt z obawy przed „nieposłuszeństwem wobec Boga”, może przy wsparciu terapeuty rozważyć, czy jej decyzja nadal wynika z jej przekonań, czy z lęku zaszczepionego przez organizację.</p>
+
+        <h4>4. Wsparcie dla rodzin i bliskich</h4>
+        <p>Model BITE może być również wykorzystywany w pracy z rodzinami osób, które zostały zwerbowane przez Świadków Jehowy. Pomaga bliskim zrozumieć, że zachowanie takiej osoby niekoniecznie wynika z jej charakteru, lecz z systemu manipulacyjnego, w którym funkcjonuje. Psycholog może wesprzeć rodzinę w:</p>
+        <ul>
+          <li>wypracowaniu strategii kontaktu bez naruszania granic emocjonalnych;</li>
+          <li>unikaniu konfrontacji, która może prowadzić do jeszcze większej izolacji osoby w grupie;</li>
+          <li>rozpoznaniu sygnałów otwartości na zmianę i wspieraniu procesu wyjścia z grupy.</li>
+        </ul>
+
+        <h3>Podsumowanie</h3>
+        <p>Model BITE to niezwykle pomocne narzędzie dla psychologów pracujących z osobami uwikłanymi w grupy destrukcyjne, takie jak Świadkowie Jehowy. Umożliwia on nie tylko diagnozę i analizę stosowanych przez grupę mechanizmów manipulacji, ale także realną pomoc w odzyskiwaniu psychicznej niezależności, odbudowie tożsamości oraz procesie leczenia traumy duchowej i emocjonalnej.</p>
+        <p>Psycholog, który posługuje się modelem BITE, może pełnić rolę przewodnika i wsparcia w procesie wychodzenia z psychicznego zniewolenia – prowadząc pacjenta od zależności ku wolności, od strachu ku zaufaniu do samego siebie.</p>
+
+        <h3>Dyskusja</h3>
+        <p>Model BITE okazuje się skutecznym narzędziem do analizy mechanizmów psychologicznego wpływu w grupach religijnych. W przypadku Świadków Jehowy można wskazać liczne praktyki, które odpowiadają poszczególnym kategoriom kontroli opisanym przez Hassana. Choć sama przynależność do wspólnoty nie musi oznaczać doświadczenia przemocy psychicznej, wiele relacji byłych członków wskazuje na głębokie, destrukcyjne oddziaływanie organizacji na jednostkę.</p>
+
+        <h3>Wnioski</h3>
+        <p>Zastosowanie modelu BITE umożliwia zrozumienie, w jaki sposób niektóre grupy religijne mogą wywierać nadmierny wpływ na swoich członków. Studium przypadku Świadków Jehowy ukazuje, że nawet legalnie działająca organizacja może przejawiać cechy grupy destrukcyjnej. Niezależnie od oceny duchowej, warto z psychologicznego punktu widzenia badać mechanizmy wpływu stosowane we wspólnotach religijnych.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section id="test">
+  <div class="wrap-narrow">
+    <div class="section-head center" style="margin:0 auto 34px auto;">
+      <span class="kicker">Test</span>
+      <h2>Sprawdź swoją grupę</h2>
+      <p class="sub">20 krótkich pytań, ok. 5 minut. Odpowiadaj szczerze, myśląc o konkretnej grupie, wspólnocie czy relacji, która budzi Twoje wątpliwości.</p>
+    </div>
+
+    <div class="quiz-card" id="quiz-intro-card">
+      <h3 style="margin-bottom:14px;">Zanim zaczniesz</h3>
+      <ul class="quiz-intro-list">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> To zajmie około 5 minut — nie ma limitu czasu.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M4 19.5A2.5 2.5 0 006.5 22H20"/></svg> Żadna odpowiedź nie jest nigdzie zapisywana ani wysyłana.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg> Nie ma dobrych ani złych odpowiedzi — wybierz to, co najbliższe prawdy.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg> Wynik to sygnał do przemyślenia, nie diagnoza kliniczna.</li>
+      </ul>
+      <button class="btn btn-primary btn-wide" onclick="startQuiz()">Zaczynamy</button>
+    </div>
+
+    <div class="quiz-card hidden" id="quiz-card">
+      <div class="progress-wrap">
+        <div class="progress-label"><span id="progress-text">Pytanie 1 z 20</span><span id="progress-pct">5%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <span class="q-cat" id="q-cat">Kontrola zachowania</span>
+      <div class="q-text" id="q-text">…</div>
+      <div class="answers" id="answers"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" id="btn-back" onclick="prevQ()">Wstecz</button>
+        <button class="btn btn-primary" id="btn-next" onclick="nextQ()" disabled>Dalej</button>
+      </div>
+    </div>
+
+    <div class="quiz-card hidden" id="result-card">
+      <div id="result-content"></div>
+    </div>
+  </div>
+</section>
+
+<section id="pomoc" style="background:var(--teal-100);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Nie musisz tego przechodzić sam/a</span>
+      <h2>Gdzie szukać pomocy</h2>
+      <p class="sub">Niezależnie od wyniku testu — jeśli coś w Twojej grupie Cię niepokoi, warto porozmawiać z kimś zaufanym. Poniżej sprawdzone miejsca, które mogą pomóc.</p>
+    </div>
+    <div class="help-grid">
+      <div class="help-card">
+        <span class="num">116 111</span>
+        <h4>Telefon zaufania dla dzieci i młodzieży</h4>
+        <p>Całodobowo, bezpłatnie i anonimowo. Prowadzony przez Fundację Dajemy Dzieciom Siłę — możesz porozmawiać o wszystkim, co Cię martwi, także o presji w grupie czy rodzinie.</p>
+        <a class="link" href="https://116111.pl/" target="_blank" rel="noopener">116111.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">116 123</span>
+        <h4>Telefon dla dorosłych w kryzysie emocjonalnym</h4>
+        <p>Całodobowa, bezpłatna linia wsparcia psychologicznego dla osób dorosłych. Dostępny też czat na 116sos.pl.</p>
+        <a class="link" href="https://116sos.pl/" target="_blank" rel="noopener">116sos.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">🕊️</span>
+        <h4>Dominikańskie Centrum Informacji o Nowych Ruchach Religijnych i Sektach</h4>
+        <p>Konsultacje dla osób uwikłanych w grupy destrukcyjne oraz ich rodzin — telefonicznie, mailowo i osobiście. Aktualne dyżury i kontakt na stronie centrum.</p>
+        <a class="link" href="https://sekty.dominikanie.pl/" target="_blank" rel="noopener">sekty.dominikanie.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">🌍</span>
+        <h4>ICSA — International Cultic Studies Association</h4>
+        <p>Międzynarodowa organizacja badająca grupy destrukcyjne, z materiałami i grupami wsparcia (w j. angielskim) dla byłych członków i ich rodzin.</p>
+        <a class="link" href="https://www.icsahome.com/" target="_blank" rel="noopener">icsahome.com →</a>
+      </div>
+    </div>
+    <div class="disclaimer-box">
+      <strong>Ważne:</strong> ten serwis nie zastępuje diagnozy psychologicznej ani psychiatrycznej. Powstał w celach edukacyjnych, na bazie modelu BITE Stephena Hassana oraz pracy analitycznej dotyczącej mechanizmów kontroli w grupach destrukcyjnych. Jeśli obawiasz się o swoje bezpieczeństwo albo bezpieczeństwo bliskiej osoby, skontaktuj się z profesjonalistą (psychologiem, psychiatrą) lub — w sytuacji zagrożenia życia — zadzwoń pod numer alarmowy 112.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-wrap">
+    <div>
+      <div class="brand" style="color:#fff;"><span class="brand-dot"></span> Wolna Głowa</div>
+      <p class="small" style="color:#c9ddd8; max-width:40ch; margin-top:10px;">Projekt edukacyjny oparty na modelu BITE Stephena Hassana. Stworzony przez studenta psychologii, dla którego temat grup destrukcyjnych jest osobiście ważny.</p>
+      <p class="small" style="color:#c9ddd8; margin-top:14px;">Moje inne projekty: <a href="https://icd11-dsm5-search.netlify.app/" target="_blank" rel="noopener">wyszukiwarka ICD-11/DSM-5</a> · <a href="https://www.youtube.com/@psychologia_wasiak" target="_blank" rel="noopener">YouTube</a></p>
+    </div>
+    <div class="small">
+      <p style="color:#c9ddd8;">Model BITE: Stephen Hassan, <a href="https://freedomofmind.com/" target="_blank" rel="noopener">freedomofmind.com</a></p>
+      <p style="color:#c9ddd8;">Analiza WŚJ: Paweł Wasiak, ORCID 0009-0004-6555-3156</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ---------- Article toggle ----------
+const articleDetails = document.getElementById('article-details');
+if(articleDetails){
+  articleDetails.addEventListener('toggle', ()=>{
+    const summary = document.getElementById('article-summary');
+    if(articleDetails.open){
+      summary.textContent = 'Zwiń artykuł ↑';
+      setTimeout(()=> articleDetails.scrollIntoView({behavior:'smooth', block:'start'}), 60);
+    } else {
+      summary.textContent = 'Rozwiń i przeczytaj cały artykuł ↓';
+    }
+  });
+}
+
+// ---------- Mobile nav ----------
+function toggleNav(){
+  document.getElementById('nav-list').classList.toggle('open');
+}
+document.querySelectorAll('#nav-list a').forEach(a=>{
+  a.addEventListener('click', ()=> document.getElementById('nav-list').classList.remove('open'));
+});
+
+// ---------- Quick exit ----------
+function quickExit(){
+  window.location.replace("https://www.google.com/search?q=pogoda+dzi%C5%9B");
+}
+
+// ---------- BITE accordion ----------
+function toggleCat(headEl){
+  const cat = headEl.parentElement;
+  const body = cat.querySelector('.bite-body');
+  const isOpen = cat.classList.contains('open');
+  document.querySelectorAll('.bite-cat').forEach(c=>{
+    c.classList.remove('open');
+    c.querySelector('.bite-body').style.maxHeight = null;
+  });
+  if(!isOpen){
+    cat.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 40 + 'px';
+  }
+}
+function toggleExample(btn){
+  const box = btn.nextElementSibling;
+  box.classList.toggle('show');
+  btn.textContent = box.classList.contains('show') ? 'Ukryj przykład ▴' : 'Zobacz przykład: Świadkowie Jehowy ▾';
+  const cat = btn.closest('.bite-cat');
+  const body = cat.querySelector('.bite-body');
+  if(cat.classList.contains('open')){
+    setTimeout(()=>{ body.style.maxHeight = body.scrollHeight + 40 + 'px'; }, 10);
+  }
+}
+
+// ---------- Quiz data ----------
+const CATS = {
+  behavior: {label:'Kontrola zachowania', color:'#1a7a70'},
+  info:     {label:'Kontrola informacji', color:'#d6890a'},
+  thought:  {label:'Kontrola myśli', color:'#e8543f'},
+  emotion:  {label:'Kontrola emocji', color:'#8e5bc9'}
+};
+
+const QUESTIONS = [
+  {cat:'behavior', text:'Czy uczestnictwo w spotkaniach/zebraniach grupy jest obowiązkowe, a nieobecność wiąże się z konsekwencjami?'},
+  {cat:'behavior', text:'Czy grupa decyduje o tym, jak powinieneś/aś wyglądać, ubierać się lub spędzać wolny czas?'},
+  {cat:'behavior', text:'Czy ważne decyzje życiowe (szkoła, praca, związek, pieniądze) musisz konsultować lub uzyskiwać na nie zgodę lidera/starszych grupy?'},
+  {cat:'behavior', text:'Czy zniechęca się Cię do kontaktów z osobami spoza grupy, w tym z rodziną lub dawnymi przyjaciółmi?'},
+  {cat:'behavior', text:'Czy czujesz, że musisz „zasłużyć” na akceptację grupy poprzez określone zachowania lub poziom zaangażowania?'},
+
+  {cat:'info', text:'Czy grupa odradza lub zabrania czytania/oglądania materiałów krytycznych wobec niej?'},
+  {cat:'info', text:'Czy osoby krytykujące grupę są nazywane kłamcami, chorymi psychicznie, wrogami albo „opętanymi”?'},
+  {cat:'info', text:'Czy zdarza się, że grupa ukrywa przed Tobą informacje o swojej historii, finansach lub decyzjach liderów?'},
+  {cat:'info', text:'Czy czujesz presję, by informować liderów o wątpliwościach lub „złym zachowaniu” innych członków?'},
+  {cat:'info', text:'Czy jedynym „prawdziwym” źródłem wiedzy o świecie i wartościach ma być to, co mówi grupa?'},
+
+  {cat:'thought', text:'Czy w grupie funkcjonuje wyraźny podział na „my” (dobrzy, prawdziwi, oświeceni) i „oni” (źli, zagubieni, wrogowie)?'},
+  {cat:'thought', text:'Czy wyrażanie wątpliwości co do nauk lub decyzji grupy jest traktowane jako grzech, słabość albo „zły wpływ”?'},
+  {cat:'thought', text:'Czy grupa używa specyficznego słownictwa lub sloganów, trudnych do wytłumaczenia komuś z zewnątrz?'},
+  {cat:'thought', text:'Czy masz wrażenie, że trudno Ci samodzielnie, krytycznie pomyśleć o samej grupie — jakby pewne myśli były „zakazane”?'},
+  {cat:'thought', text:'Czy powtarzanie modlitw, haseł, medytacji lub innych rytuałów jest używane, by „nie dopuścić” trudnych myśli lub wątpliwości?'},
+
+  {cat:'emotion', text:'Czy boisz się, że coś złego (kara, potępienie, katastrofa) spotka Cię lub bliskich, jeśli opuścisz grupę?'},
+  {cat:'emotion', text:'Czy często czujesz winę lub wstyd, gdy nie spełniasz oczekiwań grupy?'},
+  {cat:'emotion', text:'Czy wiesz, że opuszczenie grupy oznaczałoby utratę kontaktu z rodziną lub przyjaciółmi, którzy w niej zostają?'},
+  {cat:'emotion', text:'Czy Twoja wartość i poczucie bycia kochanym/ą zależy od tego, jak bardzo jesteś zaangażowany/a w grupę?'},
+  {cat:'emotion', text:'Czy zdarzyło Ci się odczuwać silny lęk lub napięcie na samą myśl o zadaniu trudnego pytania liderom grupy?'}
+];
+
+const ANSWER_OPTIONS = [
+  {label:'Nie', value:0},
+  {label:'Raczej nie', value:1},
+  {label:'Raczej tak', value:2},
+  {label:'Zdecydowanie tak', value:3}
+];
+
+let current = 0;
+let responses = new Array(QUESTIONS.length).fill(null);
+
+function startQuiz(){
+  document.getElementById('quiz-intro-card').classList.add('hidden');
+  document.getElementById('quiz-card').classList.remove('hidden');
+  current = 0;
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  const catInfo = CATS[q.cat];
+  document.getElementById('q-cat').textContent = catInfo.label;
+  document.getElementById('q-cat').style.background = catInfo.color;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('progress-text').textContent = 'Pytanie ' + (current+1) + ' z ' + QUESTIONS.length;
+  const pct = Math.round(((current+1)/QUESTIONS.length)*100);
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const answersEl = document.getElementById('answers');
+  answersEl.innerHTML = '';
+  ANSWER_OPTIONS.forEach(opt=>{
+    const b = document.createElement('button');
+    b.className = 'answer-btn' + (responses[current]===opt.value ? ' selected' : '');
+    b.textContent = opt.label;
+    b.onclick = ()=>{
+      responses[current] = opt.value;
+      renderQuestion();
+    };
+    answersEl.appendChild(b);
+  });
+
+  document.getElementById('btn-back').style.visibility = current===0 ? 'hidden' : 'visible';
+  document.getElementById('btn-next').disabled = responses[current]===null;
+  document.getElementById('btn-next').textContent = current===QUESTIONS.length-1 ? 'Zobacz wynik' : 'Dalej';
+}
+
+function nextQ(){
+  if(responses[current]===null) return;
+  if(current < QUESTIONS.length-1){
+    current++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+function prevQ(){
+  if(current>0){ current--; renderQuestion(); }
+}
+
+function showResults(){
+  document.getElementById('quiz-card').classList.add('hidden');
+  const resultCard = document.getElementById('result-card');
+  resultCard.classList.remove('hidden');
+
+  // per-category totals
+  const totals = {behavior:0, info:0, thought:0, emotion:0};
+  QUESTIONS.forEach((q,i)=>{ totals[q.cat] += responses[i]; });
+  const grand = Object.values(totals).reduce((a,b)=>a+b,0);
+  const maxGrand = QUESTIONS.length*3;
+  const pctGrand = Math.round((grand/maxGrand)*100);
+
+  let level, color, colorDark, headline, body;
+  if(pctGrand <= 20){
+    level='Niski poziom sygnałów ostrzegawczych'; color='var(--green)'; colorDark='var(--green-dark)';
+    headline='Twoje odpowiedzi nie wskazują na silną kontrolę';
+    body='To dobra wiadomość — opisana przez Ciebie grupa nie wykazuje wyraźnych cech modelu BITE. Pamiętaj, że każda wspólnota ma jakieś zasady — to normalne. Jeśli mimo to coś Cię niepokoi, zaufaj temu przeczuciu i porozmawiaj z kimś zaufanym.';
+  } else if(pctGrand <= 45){
+    level='Kilka sygnałów ostrzegawczych'; color='var(--amber)'; colorDark='var(--amber-dark)';
+    headline='Warto uważnie obserwować tę grupę';
+    body='Twoje odpowiedzi pokazują pojedyncze mechanizmy kontroli — to jeszcze nie oznacza sekty, ale są to sygnały, których nie warto ignorować. Zwróć uwagę na obszar, który wypadł najwyżej poniżej, i porozmawiaj o swoich obserwacjach z kimś, komu ufasz.';
+  } else if(pctGrand <= 70){
+    level='Wysoki poziom sygnałów ostrzegawczych'; color='var(--coral)'; colorDark='var(--coral-dark)';
+    headline='Wiele cech tej grupy pokrywa się z modelem BITE';
+    body='To poważny sygnał. Grupa, o której myślałeś/aś, wykazuje liczne cechy kontroli behawioralnej, informacyjnej, myślowej lub emocjonalnej opisane przez Stephena Hassana. Rozważ rozmowę z psychologiem lub organizacją wspierającą osoby w takich sytuacjach — sekcja "Gdzie szukać pomocy" poniżej.';
+  } else {
+    level='Bardzo wysoki poziom sygnałów ostrzegawczych'; color='var(--red)'; colorDark='var(--red-dark)';
+    headline='Ta grupa wykazuje silne cechy grupy destrukcyjnej';
+    body='Twoje odpowiedzi wskazują na obecność wielu mechanizmów kontroli opisanych w modelu BITE, obejmujących niemal wszystkie cztery obszary. Nie musisz nic zmieniać "od razu" — ale bardzo zachęcamy, byś porozmawiał/a o tym z zaufaną osobą dorosłą lub specjalistą. Nie jesteś sam/a.';
+  }
+
+  const catLabels = {behavior:'Zachowanie', info:'Informacje', thought:'Myśli', emotion:'Emocje'};
+  const catColors = {behavior:'#1a7a70', info:'#d6890a', thought:'#e8543f', emotion:'#8e5bc9'};
+  const maxCat = 15;
+
+  let barsHtml = '';
+  Object.keys(totals).forEach(cat=>{
+    const pct = Math.round((totals[cat]/maxCat)*100);
+    barsHtml += `<div class="bar-row">
+      <div class="lbl"><span>${catLabels[cat]}</span><span>${pct}%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${catColors[cat]};"></div></div>
+    </div>`;
+  });
+
+  document.getElementById('result-content').innerHTML = `
+    <div class="result-badge" style="background:${color}22; color:${colorDark};">${level}</div>
+    <h3 style="font-size:24px; margin-bottom:10px;">${headline}</h3>
+    <p style="color:var(--ink-soft); margin-bottom:26px;">${body}</p>
+    <h4 style="font-size:15px; color:var(--teal-900); margin-bottom:14px;">Rozkład wyniku wg obszarów modelu BITE</h4>
+    ${barsHtml}
+    <div class="disclaimer-box" style="margin-top:24px;">
+      To narzędzie edukacyjne, nie diagnoza kliniczna. Jeżeli wynik Cię zaniepokoił, zajrzyj do sekcji <a href="#pomoc">„Gdzie szukać pomocy”</a> poniżej lub porozmawiaj z psychologiem, pedagogiem szkolnym albo inną zaufaną dorosłą osobą.
+    </div>
+    <div class="cta-row" style="margin-top:22px;">
+      <button class="btn btn-primary" onclick="restartQuiz()">Zrób test ponownie</button>
+      <a href="#pomoc" class="btn btn-ghost">Zobacz, gdzie szukać pomocy</a>
+    </div>
+  `;
+}
+
+function restartQuiz(){
+  current = 0;
+  responses = new Array(QUESTIONS.length).fill(null);
+  document.getElementById('result-card').classList.add('hidden');
+  document.getElementById('quiz-intro-card').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
