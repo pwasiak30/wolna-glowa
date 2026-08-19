@@ -118,8 +118,8 @@
 <div class="sensory-banner" id="sensory-banner">
   <div class="wrap sensory-banner-inner">
     <div class="sensory-banner-text">
-      <strong>Ta strona testuje własne założenia.</strong>
-      <span class="text-sm">Włącz tryb ASD, żeby zobaczyć realne uproszczenie interfejsu na żywo.</span>
+      <strong>Tryb ASD</strong>
+      <span class="text-sm">Włącz, żeby zobaczyć realne uproszczenie interfejsu na żywo — bez animacji, z większą czcionką i odstępami.</span>
     </div>
     <button type="button" id="sensory-toggle" class="btn btn-sensory" aria-pressed="false">
       <span aria-hidden="true">🧠</span> Włącz tryb ASD
@@ -180,11 +180,6 @@
   <span class="coffee-label">Postaw kawę</span>
 </a>
 
-<button id="quick-exit" onclick="quickExit()" aria-label="Szybkie wyjście ze strony">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  Szybkie wyjście
-</button>
-<div class="exit-note">Jeśli ktoś może zobaczyć ten ekran — kliknij, a natychmiast przeniesiemy Cię na inną stronę i usuniemy tę z historii "wstecz".</div>
 
 <nav class="page-nav">
   <div class="navwrap">
@@ -723,10 +718,6 @@ document.querySelectorAll('#nav-list a').forEach(a=>{
   a.addEventListener('click', ()=> document.getElementById('nav-list').classList.remove('open'));
 });
 
-// ---------- Quick exit ----------
-function quickExit(){
-  window.location.replace("https://www.google.com/search?q=pogoda+dzi%C5%9B");
-}
 
 // ---------- BITE accordion ----------
 function toggleCat(headEl){

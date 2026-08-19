@@ -77,15 +77,15 @@
     </a>
     <nav>
       <ul class="topbar-links">
-        <li><a href="https://wasiakpawel.pl">Strona główna</a></li>
+        <li><a href="https://wasiakpawel.pl">Головна сторінка</a></li>
         <li><a href="https://linktree.wasiakpawel.pl" class="is-accent">🔗 Linktree</a></li>
         <li>
           <button
             type="button"
             id="theme-toggle"
             class="theme-toggle"
-            aria-label="Przełącz jasny/ciemny motyw"
-            title="Przełącz jasny/ciemny motyw"
+            aria-label="Перемкнути світлу/темну тему"
+            title="Перемкнути світлу/темну тему"
           >
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5a1 1 0 0 1-1-1V2a1 1 0 1 1 2 0v1.5a1 1 0 0 1-1 1zm0 15a1 1 0 0 1 1 1V22a1 1 0 1 1-2 0v-1.5a1 1 0 0 1 1-1zm7.5-7.5a1 1 0 0 1 1-1H22a1 1 0 1 1 0 2h-1.5a1 1 0 0 1-1-1zm-15 0a1 1 0 0 1 1 1H2a1 1 0 1 1 0-2h1.5a1 1 0 0 1 1 1zm12.02-5.52a1 1 0 0 1 0-1.42l1.06-1.06a1 1 0 1 1 1.42 1.42l-1.06 1.06a1 1 0 0 1-1.42 0zM5.44 18.56a1 1 0 0 1 0-1.42l1.06-1.06a1 1 0 1 1 1.42 1.42l-1.06 1.06a1 1 0 0 1-1.42 0zm13.12 0a1 1 0 0 1-1.42 0l-1.06-1.06a1 1 0 1 1 1.42-1.42l1.06 1.06a1 1 0 0 1 0 1.42zM6.5 6.5a1 1 0 0 1-1.42 0L4.02 5.44a1 1 0 0 1 1.42-1.42L6.5 5.08a1 1 0 0 1 0 1.42zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10z"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 14.5A9 9 0 1 1 9.5 2.5a1 1 0 0 1 1.06 1.5A7 7 0 0 0 20 13.44a1 1 0 0 1 1.5 1.06z"/></svg>
@@ -118,11 +118,11 @@
 <div class="sensory-banner" id="sensory-banner">
   <div class="wrap sensory-banner-inner">
     <div class="sensory-banner-text">
-      <strong>Ta strona testuje własne założenia.</strong>
-      <span class="text-sm">Włącz tryb ASD, żeby zobaczyć realne uproszczenie interfejsu na żywo.</span>
+      <strong>Режим ASD</strong>
+      <span class="text-sm">Увімкніть, щоб побачити реальне спрощення інтерфейсу наживо — без анімацій, з більшим шрифтом і відступами.</span>
     </div>
     <button type="button" id="sensory-toggle" class="btn btn-sensory" aria-pressed="false">
-      <span aria-hidden="true">🧠</span> Włącz tryb ASD
+      <span aria-hidden="true">🧠</span> Увімкнути режим ASD
     </button>
   </div>
 </div>
@@ -148,13 +148,13 @@
     if(btn){
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       btn.innerHTML = on
-        ? '<span aria-hidden="true">✅</span> Tryb ASD włączony'
-        : '<span aria-hidden="true">🧠</span> Włącz tryb ASD';
+        ? '<span aria-hidden="true">✅</span> Режим ASD увімкнено'
+        : '<span aria-hidden="true">🧠</span> Увімкнути режим ASD';
     }
     if(live){
       live.textContent = on
-        ? 'Tryb ASD włączony: większa czcionka i odstępy, wyłączone animacje, większe przyciski, ukryty pływający widget social media.'
-        : 'Tryb ASD wyłączony: przywrócono standardowy widok strony.';
+        ? 'Режим ASD увімкнено: більший шрифт і відступи, вимкнені анімації, більші кнопки, прихований плаваючий віджет соцмереж.'
+        : 'Режим ASD вимкнено: відновлено стандартний вигляд сторінки.';
     }
     if(persist){
       try{ localStorage.setItem(KEY, on ? '1' : '0'); }catch(e){}
@@ -180,11 +180,6 @@
   <span class="coffee-label">Підтримати</span>
 </a>
 
-<button id="quick-exit" onclick="quickExit()" aria-label="Швидкий вихід із сайту">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  Швидкий вихід
-</button>
-<div class="exit-note">Якщо хтось може побачити цей екран — натисніть, і ми одразу перенесемо вас на іншу сторінку та видалимо цю зі списку "назад" у браузері.</div>
 
 <nav class="page-nav">
   <div class="navwrap">
@@ -723,10 +718,6 @@ document.querySelectorAll('#nav-list a').forEach(a=>{
   a.addEventListener('click', ()=> document.getElementById('nav-list').classList.remove('open'));
 });
 
-// ---------- Quick exit ----------
-function quickExit(){
-  window.location.replace("https://www.google.com/search?q=%D0%BF%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0+%D1%81%D1%8C%D0%BE%D0%B3%D0%BE%D0%B4%D0%BD%D1%96");
-}
 
 // ---------- BITE accordion ----------
 function toggleCat(headEl){

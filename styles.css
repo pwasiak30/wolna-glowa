@@ -3,45 +3,12 @@
      UWAGA: od przebudowy wg instrukcji projektu "Marka" ten plik jest
      ładowany PO styleguide.css i celowo NIE duplikuje jego resetu, zmiennych
      kolorów, typografii ani komponentów bazowych (.btn, .card, .chip, .wrap).
-     Zawiera tylko to, co jest unikalne dla tej podstrony: przycisk szybkiego
-     wyjścia, własny nawigacyjny pasek w-page (kotwice + przełącznik języka —
-     odrębny od topbar-component.html, który jest doklejony wyżej), akordeon
-     modelu BITE, quiz, wyniki, sekcję "o mnie", artykuł naukowy, stopkę oraz
+     Zawiera tylko to, co jest unikalne dla tej podstrony: własny nawigacyjny
+     pasek w-page (kotwice + przełącznik języka — odrębny od
+     topbar-component.html, który jest doklejony wyżej), akordeon modelu
+     BITE, quiz, wyniki, sekcję "o mnie", artykuł naukowy, stopkę oraz
      pływający przycisk wsparcia (Suppi).
      ========================================================================== */
-
-  /* Quick exit — zawsze w prawym górnym rogu (także na mobile), żeby nie
-     kolidować z pływającym paskiem social-fab (lewy dół / cały dół na
-     telefonie) ani z przyciskiem wsparcia Suppi (prawy dół). To funkcja
-     bezpieczeństwa, więc jej pozycja musi być stała i przewidywalna. */
-  #quick-exit{
-    position:fixed; top:14px; right:14px; z-index:9999;
-    background:var(--ink); color:#fff; border:none;
-    padding:10px 16px; border-radius:var(--radius-pill); font-family:var(--font-body);
-    font-weight:600; font-size:13px; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.25);
-    display:flex; align-items:center; gap:6px;
-    opacity:0.92;
-  }
-  #quick-exit:hover{opacity:1; background:#000;}
-  .exit-note{
-    position:fixed; top:56px; right:14px; z-index:9998; max-width:220px;
-    background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 12px;
-    font-size:11.5px; color:var(--ink-soft); box-shadow:var(--shadow); display:none;
-  }
-  #quick-exit:hover + .exit-note, .exit-note.show{display:block;}
-  @media (max-width:640px){
-    .exit-note{max-width:180px;}
-  }
-
-  /* Rezerwacja miejsca w topbar-component.html na fixed #quick-exit, żeby
-     jego prawy górny róg nie zasłaniał przełącznika jasny/ciemny topbara —
-     topbar i tak zawija się (flex-wrap) na węższych ekranach, więc to tylko
-     przesuwa próg zawijania trochę wcześniej. */
-  /* !important: topbar-component.html ships its own inline <style> placed
-     in <body>, AFTER this stylesheet in source order — same specificity
-     would let it win over this override, so it's needed here. */
-  .topbar-inner{ padding-right:180px !important; }
-  @media (max-width:900px){ .topbar-inner{ padding-right:20px !important; } }
 
   /* Nav w-page (kotwice do sekcji + przełącznik języka). To NIE jest
      topbar-component.html (ten jest wklejony osobno, wyżej, i prowadzi z
