@@ -190,10 +190,11 @@
   <div class="navwrap">
     <a href="#top" class="brand"><span class="brand-dot"></span> Wolna Głowa</a>
     <ul id="nav-list">
-      <li><a class="navlink" href="#model">Модель BITE</a></li>
-      <li><a class="navlink" href="#o-mnie">Про мене</a></li>
       <li><a class="navlink" href="#test">Тест</a></li>
+      <li><a class="navlink" href="#model">Модель BITE</a></li>
       <li><a class="navlink" href="#pomoc">Допомога</a></li>
+      <li><a class="navlink" href="#o-mnie">Про мене</a></li>
+      <li><a class="navlink" href="#artykul">Стаття</a></li>
     </ul>
     <span class="lang-switch" aria-label="Вибір мови"><a href="index.html" lang="pl">PL</a><a href="en.html" lang="en">EN</a><a href="uk.html" class="active" lang="uk">UA</a></span>
     <button id="nav-toggle" aria-label="Відкрити меню" onclick="toggleNav()">
@@ -204,7 +205,8 @@
 
 <a id="top"></a>
 <header class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
     <span class="eyebrow">Тест на основі моделі BITE Стівена Хассана</span>
     <h1 class="title">Ваша група підтримує вас — чи контролює?</h1>
     <p class="lede">Іноді важко помітити це зсередини. Цей тест допоможе вам подивитися на свою спільноту, рух, церкву чи групу очима психології — без оцінювання, без тиску, у вашому темпі.</p>
@@ -229,8 +231,59 @@
         Це освітній інструмент, а не діагноз
       </div>
     </div>
+    </div>
+      <aside class="hero-panel" aria-label="Модель BITE">
+        <p class="hero-panel-kicker">Чотири сфери</p>
+        <p class="hero-panel-title">Що перевіряє тест</p>
+        <ol class="bite-preview">
+          <li><span class="bite-num c-behavior">B</span><span><strong>Поведінка</strong><small>Behavior</small></span><span class="meter" aria-hidden="true"><i></i></span></li>
+          <li><span class="bite-num c-info">I</span><span><strong>Інформація</strong><small>Information</small></span><span class="meter" aria-hidden="true"><i></i></span></li>
+          <li><span class="bite-num c-thought">T</span><span><strong>Мислення</strong><small>Thought</small></span><span class="meter" aria-hidden="true"><i></i></span></li>
+          <li><span class="bite-num c-emotion">E</span><span><strong>Емоції</strong><small>Emotion</small></span><span class="meter" aria-hidden="true"><i></i></span></li>
+        </ol>
+        <p class="hero-panel-note">Порожні смуги — це не результат. Після тесту він лишається лише у вас, нічого не надсилається.</p>
+      </aside>
   </div>
 </header>
+
+<section id="test">
+  <div class="wrap-narrow">
+    <div class="section-head center" style="margin:0 auto 34px auto;">
+      <span class="kicker">Тест</span>
+      <h2>Перевірте свою групу</h2>
+      <p class="sub">20 коротких запитань, приблизно 5 хвилин. Відповідайте чесно, думаючи про конкретну групу, спільноту чи стосунки, які викликають у вас сумніви.</p>
+    </div>
+
+    <div class="quiz-card" id="quiz-intro-card">
+      <h3 style="margin-bottom:14px;">Перш ніж почати</h3>
+      <ul class="quiz-intro-list">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> Це займе близько 5 хвилин — без обмеження часу.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M4 19.5A2.5 2.5 0 006.5 22H20"/></svg> Жодна відповідь ніде не зберігається і не надсилається.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg> Немає правильних чи неправильних відповідей — оберіть те, що найближче до правди.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg> Результат — це сигнал для роздумів, а не клінічний діагноз.</li>
+      </ul>
+      <button class="btn btn-primary btn-wide" onclick="startQuiz()">Починаємо</button>
+    </div>
+
+    <div class="quiz-card hidden" id="quiz-card">
+      <div class="progress-wrap">
+        <div class="progress-label"><span id="progress-text">Питання 1 з 20</span><span id="progress-pct">5%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <span class="q-cat" id="q-cat">Контроль поведінки</span>
+      <div class="q-text" id="q-text">…</div>
+      <div class="answers" id="answers"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" id="btn-back" onclick="prevQ()">Назад</button>
+        <button class="btn btn-primary" id="btn-next" onclick="nextQ()" disabled>Далі</button>
+      </div>
+    </div>
+
+    <div class="quiz-card hidden" id="result-card">
+      <div id="result-content"></div>
+    </div>
+  </div>
+</section>
 
 <section id="czym-jest">
   <div class="wrap">
@@ -256,7 +309,7 @@
   </div>
 </section>
 
-<section id="model" style="background:var(--teal-100);">
+<section id="model">
   <div class="wrap">
     <div class="section-head">
       <span class="kicker">Інструмент</span>
@@ -264,6 +317,7 @@
       <p class="sub">BITE — це абревіатура від <strong>Behavior, Information, Thought, Emotion</strong> (поведінка, інформація, мислення, емоції) — чотирьох сфер, у яких деструктивні групи перебирають контроль над своїми членами. Модель створив <strong>Стівен Хассан</strong>, американський терапевт, який у молодості сам був членом Церкви Об'єднання (так званої секти Муна). Вийшовши з групи, він присвятив кар'єру дослідженню психоманіпуляцій і допомозі людям, заплутаним у деструктивних спільнотах.</p>
     </div>
 
+    <div class="bite-grid">
     <div class="bite-cat" data-color="behavior">
       <div class="bite-head" onclick="toggleCat(this)">
         <div class="bite-num c-behavior">B</div>
@@ -371,6 +425,7 @@
         </div>
       </div>
     </div>
+    </div>
 
   </div>
 </section>
@@ -390,6 +445,45 @@
       <span class="chip">Закриті онлайн-спільноти</span>
       <span class="chip">Ідеологічні та політичні групи</span>
       <span class="chip">Токсичні «родини» та групові стосунки</span>
+    </div>
+  </div>
+</section>
+
+<section id="pomoc">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Вам не обов'язково проходити через це самотужки</span>
+      <h2>Де шукати допомогу</h2>
+      <p class="sub">Незалежно від результату тесту — якщо щось у вашій групі вас турбує, варто поговорити з кимось, кому ви довіряєте. Нижче — перевірені місця, які можуть допомогти.</p>
+    </div>
+    <div class="help-grid">
+      <div class="help-card">
+        <span class="num">116 111</span>
+        <h4>Телефон довіри для дітей та молоді (Польща)</h4>
+        <p>Цілодобово, безкоштовно й анонімно. Працює під керівництвом фундації Dajemy Dzieciom Siłę — можна поговорити про все, що турбує, зокрема про тиск у групі чи родині.</p>
+        <a class="link" href="https://116111.pl/" target="_blank" rel="noopener">116111.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">116 123</span>
+        <h4>Телефон для дорослих в емоційній кризі (Польща)</h4>
+        <p>Цілодобова, безкоштовна лінія психологічної підтримки для дорослих. Також доступний чат на 116sos.pl.</p>
+        <a class="link" href="https://116sos.pl/" target="_blank" rel="noopener">116sos.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">🕊️</span>
+        <h4>Домініканський центр інформації про нові релігійні рухи та секти (Польща)</h4>
+        <p>Консультації для людей, заплутаних у деструктивних групах, та їхніх родин — телефоном, електронною поштою чи особисто. Актуальні години прийому та контакти на сайті центру.</p>
+        <a class="link" href="https://sekty.dominikanie.pl/" target="_blank" rel="noopener">sekty.dominikanie.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">🌍</span>
+        <h4>ICSA — International Cultic Studies Association</h4>
+        <p>Міжнародна організація, яка досліджує деструктивні групи, з матеріалами та групами підтримки (англійською мовою) для колишніх членів та їхніх родин.</p>
+        <a class="link" href="https://www.icsahome.com/" target="_blank" rel="noopener">icsahome.com →</a>
+      </div>
+    </div>
+    <div class="disclaimer-box">
+      <strong>Важливо:</strong> цей сайт не замінює психологічної чи психіатричної діагностики. Він створений з освітньою метою на основі моделі BITE Стівена Хассана та аналітичної роботи щодо механізмів контролю в деструктивних групах. Якщо ви побоюєтеся за свою безпеку або безпеку близької людини, зверніться до фахівця (психолога, психіатра) або — в ситуації загрози життю — зателефонуйте на номер екстреної допомоги 112.
     </div>
   </div>
 </section>
@@ -439,7 +533,7 @@
   </div>
 </section>
 
-<section id="artykul" style="background:var(--teal-100);">
+<section id="artykul">
   <div class="wrap">
     <div class="section-head">
       <span class="kicker">Наукова праця</span>
@@ -578,84 +672,6 @@
         <p>Застосування моделі BITE дає змогу зрозуміти, як деякі релігійні групи можуть чинити надмірний вплив на своїх членів. Кейс-стаді Свідків Єгови показує, що навіть законно діюча організація може виявляти ознаки деструктивної групи. Незалежно від духовної оцінки, варто з психологічної точки зору досліджувати механізми впливу, що застосовуються в релігійних спільнотах.</p>
       </div>
     </details>
-  </div>
-</section>
-
-<section id="test">
-  <div class="wrap-narrow">
-    <div class="section-head center" style="margin:0 auto 34px auto;">
-      <span class="kicker">Тест</span>
-      <h2>Перевірте свою групу</h2>
-      <p class="sub">20 коротких запитань, приблизно 5 хвилин. Відповідайте чесно, думаючи про конкретну групу, спільноту чи стосунки, які викликають у вас сумніви.</p>
-    </div>
-
-    <div class="quiz-card" id="quiz-intro-card">
-      <h3 style="margin-bottom:14px;">Перш ніж почати</h3>
-      <ul class="quiz-intro-list">
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> Це займе близько 5 хвилин — без обмеження часу.</li>
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M4 19.5A2.5 2.5 0 006.5 22H20"/></svg> Жодна відповідь ніде не зберігається і не надсилається.</li>
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg> Немає правильних чи неправильних відповідей — оберіть те, що найближче до правди.</li>
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg> Результат — це сигнал для роздумів, а не клінічний діагноз.</li>
-      </ul>
-      <button class="btn btn-primary btn-wide" onclick="startQuiz()">Починаємо</button>
-    </div>
-
-    <div class="quiz-card hidden" id="quiz-card">
-      <div class="progress-wrap">
-        <div class="progress-label"><span id="progress-text">Питання 1 з 20</span><span id="progress-pct">5%</span></div>
-        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-      </div>
-      <span class="q-cat" id="q-cat">Контроль поведінки</span>
-      <div class="q-text" id="q-text">…</div>
-      <div class="answers" id="answers"></div>
-      <div class="quiz-nav">
-        <button class="btn btn-ghost" id="btn-back" onclick="prevQ()">Назад</button>
-        <button class="btn btn-primary" id="btn-next" onclick="nextQ()" disabled>Далі</button>
-      </div>
-    </div>
-
-    <div class="quiz-card hidden" id="result-card">
-      <div id="result-content"></div>
-    </div>
-  </div>
-</section>
-
-<section id="pomoc" style="background:var(--teal-100);">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">Вам не обов'язково проходити через це самотужки</span>
-      <h2>Де шукати допомогу</h2>
-      <p class="sub">Незалежно від результату тесту — якщо щось у вашій групі вас турбує, варто поговорити з кимось, кому ви довіряєте. Нижче — перевірені місця, які можуть допомогти.</p>
-    </div>
-    <div class="help-grid">
-      <div class="help-card">
-        <span class="num">116 111</span>
-        <h4>Телефон довіри для дітей та молоді (Польща)</h4>
-        <p>Цілодобово, безкоштовно й анонімно. Працює під керівництвом фундації Dajemy Dzieciom Siłę — можна поговорити про все, що турбує, зокрема про тиск у групі чи родині.</p>
-        <a class="link" href="https://116111.pl/" target="_blank" rel="noopener">116111.pl →</a>
-      </div>
-      <div class="help-card">
-        <span class="num">116 123</span>
-        <h4>Телефон для дорослих в емоційній кризі (Польща)</h4>
-        <p>Цілодобова, безкоштовна лінія психологічної підтримки для дорослих. Також доступний чат на 116sos.pl.</p>
-        <a class="link" href="https://116sos.pl/" target="_blank" rel="noopener">116sos.pl →</a>
-      </div>
-      <div class="help-card">
-        <span class="num">🕊️</span>
-        <h4>Домініканський центр інформації про нові релігійні рухи та секти (Польща)</h4>
-        <p>Консультації для людей, заплутаних у деструктивних групах, та їхніх родин — телефоном, електронною поштою чи особисто. Актуальні години прийому та контакти на сайті центру.</p>
-        <a class="link" href="https://sekty.dominikanie.pl/" target="_blank" rel="noopener">sekty.dominikanie.pl →</a>
-      </div>
-      <div class="help-card">
-        <span class="num">🌍</span>
-        <h4>ICSA — International Cultic Studies Association</h4>
-        <p>Міжнародна організація, яка досліджує деструктивні групи, з матеріалами та групами підтримки (англійською мовою) для колишніх членів та їхніх родин.</p>
-        <a class="link" href="https://www.icsahome.com/" target="_blank" rel="noopener">icsahome.com →</a>
-      </div>
-    </div>
-    <div class="disclaimer-box">
-      <strong>Важливо:</strong> цей сайт не замінює психологічної чи психіатричної діагностики. Він створений з освітньою метою на основі моделі BITE Стівена Хассана та аналітичної роботи щодо механізмів контролю в деструктивних групах. Якщо ви побоюєтеся за свою безпеку або безпеку близької людини, зверніться до фахівця (психолога, психіатра) або — в ситуації загрози життю — зателефонуйте на номер екстреної допомоги 112.
-    </div>
   </div>
 </section>
 

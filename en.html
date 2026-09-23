@@ -190,10 +190,11 @@
   <div class="navwrap">
     <a href="#top" class="brand"><span class="brand-dot"></span> Wolna Głowa</a>
     <ul id="nav-list">
-      <li><a class="navlink" href="#model">The BITE model</a></li>
-      <li><a class="navlink" href="#o-mnie">About me</a></li>
       <li><a class="navlink" href="#test">Test</a></li>
+      <li><a class="navlink" href="#model">The BITE model</a></li>
       <li><a class="navlink" href="#pomoc">Help</a></li>
+      <li><a class="navlink" href="#o-mnie">About</a></li>
+      <li><a class="navlink" href="#artykul">Article</a></li>
     </ul>
     <span class="lang-switch" aria-label="Language selector"><a href="index.html" lang="pl">PL</a><a href="en.html" class="active" lang="en">EN</a><a href="uk.html" lang="uk">UA</a></span>
     <button id="nav-toggle" aria-label="Open menu" onclick="toggleNav()">
@@ -204,7 +205,8 @@
 
 <a id="top"></a>
 <header class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
     <span class="eyebrow">A test based on Stephen Hassan's BITE model</span>
     <h1 class="title">Your group supports you — or controls you?</h1>
     <p class="lede">Sometimes it's hard to see from the inside. This test can help you look at your community, movement, church, or group through the lens of psychology — without judgment, without pressure, at your own pace.</p>
@@ -229,8 +231,59 @@
         This is an educational tool, not a diagnosis
       </div>
     </div>
+    </div>
+      <aside class="hero-panel" aria-label="BITE model">
+        <p class="hero-panel-kicker">Four areas</p>
+        <p class="hero-panel-title">What the test looks at</p>
+        <ol class="bite-preview">
+          <li><span class="bite-num c-behavior">B</span><span><strong>Behavior</strong><small>What you do</small></span><span class="meter" aria-hidden="true"><i></i></span></li>
+          <li><span class="bite-num c-info">I</span><span><strong>Information</strong><small>What you are allowed to know</small></span><span class="meter" aria-hidden="true"><i></i></span></li>
+          <li><span class="bite-num c-thought">T</span><span><strong>Thought</strong><small>How you are taught to think</small></span><span class="meter" aria-hidden="true"><i></i></span></li>
+          <li><span class="bite-num c-emotion">E</span><span><strong>Emotion</strong><small>Guilt, fear, belonging</small></span><span class="meter" aria-hidden="true"><i></i></span></li>
+        </ol>
+        <p class="hero-panel-note">The empty bars are not a score. After the test, the result stays on your device — nothing is sent.</p>
+      </aside>
   </div>
 </header>
+
+<section id="test">
+  <div class="wrap-narrow">
+    <div class="section-head center" style="margin:0 auto 34px auto;">
+      <span class="kicker">Test</span>
+      <h2>Check your group</h2>
+      <p class="sub">20 short questions, about 5 minutes. Answer honestly, thinking of a specific group, community, or relationship that raises doubts for you.</p>
+    </div>
+
+    <div class="quiz-card" id="quiz-intro-card">
+      <h3 style="margin-bottom:14px;">Before you start</h3>
+      <ul class="quiz-intro-list">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> It will take about 5 minutes — there's no time limit.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M4 19.5A2.5 2.5 0 006.5 22H20"/></svg> No answer is saved or sent anywhere.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg> There are no right or wrong answers — choose what's closest to the truth.</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg> The result is something to reflect on, not a clinical diagnosis.</li>
+      </ul>
+      <button class="btn btn-primary btn-wide" onclick="startQuiz()">Let's begin</button>
+    </div>
+
+    <div class="quiz-card hidden" id="quiz-card">
+      <div class="progress-wrap">
+        <div class="progress-label"><span id="progress-text">Question 1 of 20</span><span id="progress-pct">5%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <span class="q-cat" id="q-cat">Behavior control</span>
+      <div class="q-text" id="q-text">…</div>
+      <div class="answers" id="answers"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" id="btn-back" onclick="prevQ()">Back</button>
+        <button class="btn btn-primary" id="btn-next" onclick="nextQ()" disabled>Next</button>
+      </div>
+    </div>
+
+    <div class="quiz-card hidden" id="result-card">
+      <div id="result-content"></div>
+    </div>
+  </div>
+</section>
 
 <section id="czym-jest">
   <div class="wrap">
@@ -256,7 +309,7 @@
   </div>
 </section>
 
-<section id="model" style="background:var(--teal-100);">
+<section id="model">
   <div class="wrap">
     <div class="section-head">
       <span class="kicker">The tool</span>
@@ -264,6 +317,7 @@
       <p class="sub">BITE stands for <strong>Behavior, Information, Thought, Emotion</strong> — four areas in which destructive groups take control over their members. The model was created by <strong>Stephen Hassan</strong>, an American therapist who, as a young man, was himself a member of the Unification Church (the so-called "Moonies"). After leaving the group, he devoted his career to studying psychological manipulation and helping people entangled in destructive communities.</p>
     </div>
 
+    <div class="bite-grid">
     <div class="bite-cat" data-color="behavior">
       <div class="bite-head" onclick="toggleCat(this)">
         <div class="bite-num c-behavior">B</div>
@@ -371,6 +425,7 @@
         </div>
       </div>
     </div>
+    </div>
 
   </div>
 </section>
@@ -390,6 +445,45 @@
       <span class="chip">Closed online communities</span>
       <span class="chip">Ideological and political groups</span>
       <span class="chip">Toxic "families" and group relationships</span>
+    </div>
+  </div>
+</section>
+
+<section id="pomoc">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">You don't have to go through this alone</span>
+      <h2>Where to find help</h2>
+      <p class="sub">Regardless of your test result — if something about your group worries you, it's worth talking to someone you trust. Below are some resources that can help.</p>
+    </div>
+    <div class="help-grid">
+      <div class="help-card">
+        <span class="num">116 111</span>
+        <h4>Helpline for children and young people (Poland)</h4>
+        <p>Available 24/7, free and anonymous. Run by the Dajemy Dzieciom Siłę Foundation — you can talk about anything that's worrying you, including pressure within a group or family.</p>
+        <a class="link" href="https://116111.pl/" target="_blank" rel="noopener">116111.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">116 123</span>
+        <h4>Helpline for adults in emotional crisis (Poland)</h4>
+        <p>A 24/7, free psychological support line for adults. A chat is also available at 116sos.pl.</p>
+        <a class="link" href="https://116sos.pl/" target="_blank" rel="noopener">116sos.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">🕊️</span>
+        <h4>Dominican Information Center on New Religious Movements and Cults (Poland)</h4>
+        <p>Consultations for people entangled in destructive groups and their families — by phone, email, or in person. Current office hours and contact details are on the center's website.</p>
+        <a class="link" href="https://sekty.dominikanie.pl/" target="_blank" rel="noopener">sekty.dominikanie.pl →</a>
+      </div>
+      <div class="help-card">
+        <span class="num">🌍</span>
+        <h4>ICSA — International Cultic Studies Association</h4>
+        <p>An international organization researching destructive groups, offering materials and support groups (in English) for former members and their families.</p>
+        <a class="link" href="https://www.icsahome.com/" target="_blank" rel="noopener">icsahome.com →</a>
+      </div>
+    </div>
+    <div class="disclaimer-box">
+      <strong>Important:</strong> this site does not replace a psychological or psychiatric diagnosis. It was created for educational purposes, based on Stephen Hassan's BITE model and analytical work on control mechanisms in destructive groups. If you're worried about your own safety or someone else's, contact a professional (psychologist, psychiatrist), or — in a life-threatening situation — call the emergency number 112.
     </div>
   </div>
 </section>
@@ -439,7 +533,7 @@
   </div>
 </section>
 
-<section id="artykul" style="background:var(--teal-100);">
+<section id="artykul">
   <div class="wrap">
     <div class="section-head">
       <span class="kicker">Academic paper</span>
@@ -578,84 +672,6 @@
         <p>Applying the BITE model makes it possible to understand how certain religious groups can exert excessive influence over their members. The case study of Jehovah's Witnesses shows that even a legally operating organization can display the characteristics of a destructive group. Regardless of any spiritual assessment, it is worthwhile, from a psychological point of view, to study the mechanisms of influence used within religious communities.</p>
       </div>
     </details>
-  </div>
-</section>
-
-<section id="test">
-  <div class="wrap-narrow">
-    <div class="section-head center" style="margin:0 auto 34px auto;">
-      <span class="kicker">Test</span>
-      <h2>Check your group</h2>
-      <p class="sub">20 short questions, about 5 minutes. Answer honestly, thinking of a specific group, community, or relationship that raises doubts for you.</p>
-    </div>
-
-    <div class="quiz-card" id="quiz-intro-card">
-      <h3 style="margin-bottom:14px;">Before you start</h3>
-      <ul class="quiz-intro-list">
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> It will take about 5 minutes — there's no time limit.</li>
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M4 19.5A2.5 2.5 0 006.5 22H20"/></svg> No answer is saved or sent anywhere.</li>
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg> There are no right or wrong answers — choose what's closest to the truth.</li>
-        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg> The result is something to reflect on, not a clinical diagnosis.</li>
-      </ul>
-      <button class="btn btn-primary btn-wide" onclick="startQuiz()">Let's begin</button>
-    </div>
-
-    <div class="quiz-card hidden" id="quiz-card">
-      <div class="progress-wrap">
-        <div class="progress-label"><span id="progress-text">Question 1 of 20</span><span id="progress-pct">5%</span></div>
-        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-      </div>
-      <span class="q-cat" id="q-cat">Behavior control</span>
-      <div class="q-text" id="q-text">…</div>
-      <div class="answers" id="answers"></div>
-      <div class="quiz-nav">
-        <button class="btn btn-ghost" id="btn-back" onclick="prevQ()">Back</button>
-        <button class="btn btn-primary" id="btn-next" onclick="nextQ()" disabled>Next</button>
-      </div>
-    </div>
-
-    <div class="quiz-card hidden" id="result-card">
-      <div id="result-content"></div>
-    </div>
-  </div>
-</section>
-
-<section id="pomoc" style="background:var(--teal-100);">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">You don't have to go through this alone</span>
-      <h2>Where to find help</h2>
-      <p class="sub">Regardless of your test result — if something about your group worries you, it's worth talking to someone you trust. Below are some resources that can help.</p>
-    </div>
-    <div class="help-grid">
-      <div class="help-card">
-        <span class="num">116 111</span>
-        <h4>Helpline for children and young people (Poland)</h4>
-        <p>Available 24/7, free and anonymous. Run by the Dajemy Dzieciom Siłę Foundation — you can talk about anything that's worrying you, including pressure within a group or family.</p>
-        <a class="link" href="https://116111.pl/" target="_blank" rel="noopener">116111.pl →</a>
-      </div>
-      <div class="help-card">
-        <span class="num">116 123</span>
-        <h4>Helpline for adults in emotional crisis (Poland)</h4>
-        <p>A 24/7, free psychological support line for adults. A chat is also available at 116sos.pl.</p>
-        <a class="link" href="https://116sos.pl/" target="_blank" rel="noopener">116sos.pl →</a>
-      </div>
-      <div class="help-card">
-        <span class="num">🕊️</span>
-        <h4>Dominican Information Center on New Religious Movements and Cults (Poland)</h4>
-        <p>Consultations for people entangled in destructive groups and their families — by phone, email, or in person. Current office hours and contact details are on the center's website.</p>
-        <a class="link" href="https://sekty.dominikanie.pl/" target="_blank" rel="noopener">sekty.dominikanie.pl →</a>
-      </div>
-      <div class="help-card">
-        <span class="num">🌍</span>
-        <h4>ICSA — International Cultic Studies Association</h4>
-        <p>An international organization researching destructive groups, offering materials and support groups (in English) for former members and their families.</p>
-        <a class="link" href="https://www.icsahome.com/" target="_blank" rel="noopener">icsahome.com →</a>
-      </div>
-    </div>
-    <div class="disclaimer-box">
-      <strong>Important:</strong> this site does not replace a psychological or psychiatric diagnosis. It was created for educational purposes, based on Stephen Hassan's BITE model and analytical work on control mechanisms in destructive groups. If you're worried about your own safety or someone else's, contact a professional (psychologist, psychiatrist), or — in a life-threatening situation — call the emergency number 112.
-    </div>
   </div>
 </section>
 
