@@ -138,9 +138,14 @@
   var topbar = document.querySelector('.topbar');
 
   function updateStickyOffset(){
-    if(banner){ banner.style.top = (topbar ? topbar.offsetHeight : 0) + 'px'; }
+    var h = topbar ? topbar.offsetHeight : 0;
+    document.documentElement.style.setProperty('--topbar-h', h + 'px');
+    var nav = document.querySelector('nav.page-nav');
+    if(nav) document.documentElement.style.setProperty('--page-nav-h', nav.offsetHeight + 'px');
   }
   window.addEventListener('resize', updateStickyOffset);
+  document.addEventListener('DOMContentLoaded', updateStickyOffset);
+  window.addEventListener('load', updateStickyOffset);
   updateStickyOffset();
 
   function applySensory(on, persist){
@@ -212,15 +217,15 @@
     </div>
     <div class="trust-row">
       <div class="trust-item">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a7a70" stroke-width="2.2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
         We save nothing — only you see your result
       </div>
       <div class="trust-item">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a7a70" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
         No login, no personal data required
       </div>
       <div class="trust-item">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a7a70" stroke-width="2.2"><path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M4 19.5A2.5 2.5 0 006.5 22H20"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v14"/><path d="M4 19.5A2.5 2.5 0 006.5 22H20"/></svg>
         This is an educational tool, not a diagnosis
       </div>
     </div>
@@ -373,7 +378,7 @@
 <section class="alt">
   <div class="wrap">
     <div class="section-head">
-      <span class="kicker" style="color:#ffb199;">Keep in mind</span>
+      <span class="kicker">Keep in mind</span>
       <h2>This isn't just about religion</h2>
       <p class="sub">The BITE model describes <em>methods</em> of control, and the same mechanisms show up in very different settings:</p>
     </div>
@@ -657,9 +662,9 @@
 <footer>
   <div class="wrap foot-wrap">
     <div>
-      <div class="brand" style="color:#fff;"><span class="brand-dot"></span> Wolna Głowa</div>
-      <p class="small" style="color:#c9ddd8; max-width:40ch; margin-top:10px;">An educational project based on Stephen Hassan's BITE model. Created by a psychology student for whom the topic of destructive groups is personally important.</p>
-      <p class="small" style="color:#c9ddd8; margin-top:14px;">My other projects: <a href="https://pwasiak30.github.io/pawel-wasiak-portfolio/" target="_blank" rel="noopener">Portfolio</a> · <a href="https://pwasiak30.github.io/pwasiak-linktree/" target="_blank" rel="noopener">Linktree</a></p>
+      <div class="brand"><span class="brand-dot"></span> Wolna Głowa</div>
+      <p class="small" style="max-width:40ch; margin-top:10px;">An educational project based on Stephen Hassan's BITE model. Created by a psychology student for whom the topic of destructive groups is personally important.</p>
+      <p class="small" style="margin-top:14px;">My other projects: <a href="https://pwasiak30.github.io/pawel-wasiak-portfolio/" target="_blank" rel="noopener">Portfolio</a> · <a href="https://pwasiak30.github.io/pwasiak-linktree/" target="_blank" rel="noopener">Linktree</a></p>
       <p class="footer-social-label">Find me online</p>
 <ul class="social-links">
   <li><a href="https://x.com/wasiak_dsm" target="_blank" rel="noopener" aria-label="X (Twitter)">
@@ -689,8 +694,8 @@
 </ul>
     </div>
     <div class="small">
-      <p style="color:#c9ddd8;">BITE model: Stephen Hassan, <a href="https://freedomofmind.com/" target="_blank" rel="noopener">freedomofmind.com</a></p>
-      <p style="color:#c9ddd8;">Jehovah's Witnesses analysis: Paweł Wasiak, ORCID 0009-0004-6555-3156</p>
+      <p>BITE model: Stephen Hassan, <a href="https://freedomofmind.com/" target="_blank" rel="noopener">freedomofmind.com</a></p>
+      <p>Jehovah's Witnesses analysis: Paweł Wasiak, ORCID 0009-0004-6555-3156</p>
     </div>
   </div>
 </footer>
@@ -746,10 +751,10 @@ function toggleExample(btn){
 
 // ---------- Quiz data ----------
 const CATS = {
-  behavior: {label:'Behavior control', color:'#1a7a70'},
-  info:     {label:'Information control', color:'#d6890a'},
-  thought:  {label:'Thought control', color:'#e8543f'},
-  emotion:  {label:'Emotion control', color:'#8e5bc9'}
+  behavior: {label:'Behavior control', color:'var(--bite-b)'},
+  info:     {label:'Information control', color:'var(--bite-i)'},
+  thought:  {label:'Thought control', color:'var(--bite-t)'},
+  emotion:  {label:'Emotion control', color:'var(--bite-e)'}
 };
 
 const QUESTIONS = [
@@ -869,7 +874,7 @@ function showResults(){
   }
 
   const catLabels = {behavior:'Behavior', info:'Information', thought:'Thought', emotion:'Emotion'};
-  const catColors = {behavior:'#1a7a70', info:'#d6890a', thought:'#e8543f', emotion:'#8e5bc9'};
+  const catColors = {behavior:'var(--bite-b)', info:'var(--bite-i)', thought:'var(--bite-t)', emotion:'var(--bite-e)'};
   const maxCat = 15;
 
   let barsHtml = '';
@@ -882,7 +887,7 @@ function showResults(){
   });
 
   document.getElementById('result-content').innerHTML = `
-    <div class="result-badge" style="background:${color}22; color:${colorDark};">${level}</div>
+    <div class="result-badge" style="background:color-mix(in srgb, ${color} 16%, transparent); color:${colorDark};">${level}</div>
     <h3 style="font-size:24px; margin-bottom:10px;">${headline}</h3>
     <p style="color:var(--ink-soft); margin-bottom:26px;">${body}</p>
     <h4 style="font-size:15px; color:var(--teal-900); margin-bottom:14px;">Score breakdown by BITE model area</h4>

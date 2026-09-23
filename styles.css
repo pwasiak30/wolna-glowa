@@ -10,12 +10,50 @@
      pływający przycisk wsparcia (Suppi).
      ========================================================================== */
 
+
+  /* Pas „alt” i stopka NIE używają --teal-900. Od palety 2026-08-17 ta
+     zmienna w ciemnym motywie jest jasnym kolorem tekstu (#dfe7ee), więc
+     białe napisy na section.alt i w stopce znikały. --band zostaje ciemny
+     w obu motywach. --bite-* to stałe wypełnienia (biały tekst), bo
+     --teal-600/--coral w ciemnym motywie jaśnieją i białe litery się gubią. */
+  :root{
+    --band:#233650;
+    --band-ink:#f4efe4;
+    --band-muted:#c5d0dc;
+    --band-accent:#e7b56a;
+    --bite-b:#3c5878;
+    --bite-i:#9c5f22;
+    --bite-t:#a53e33;
+    --bite-e:#4a6449;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --band:#12161b;
+      --band-ink:#e9e4d8;
+      --band-muted:#b3ac9c;
+    }
+  }
+  :root[data-theme="dark"]{
+    --band:#12161b;
+    --band-ink:#e9e4d8;
+    --band-muted:#b3ac9c;
+  }
+  :root[data-theme="light"]{
+    --band:#233650;
+    --band-ink:#f4efe4;
+    --band-muted:#c5d0dc;
+  }
+
+  /* Baner ASD zostaje w treści, ale nie jest sticky. Inaczej razem z topbarem
+     przykrywa lokalne menu (Model BITE / język), które miało top:0. */
+  .sensory-banner{position:relative; top:auto;}
   /* Nav w-page (kotwice do sekcji + przełącznik języka). To NIE jest
      topbar-component.html (ten jest wklejony osobno, wyżej, i prowadzi z
      powrotem do wasiakpawel.pl) — to lokalna nawigacja specyficzna dla tej
      jednostronicowej podstrony. */
   nav.page-nav{
-    position:sticky; top:0; z-index:500; background:color-mix(in srgb, var(--paper) 92%, transparent);
+    position:sticky; top:var(--topbar-h, 58px); z-index:998;
+    background:color-mix(in srgb, var(--paper) 92%, transparent);
     backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
   }
   nav.page-nav .navwrap{
@@ -68,12 +106,14 @@
 
   .trust-row{display:flex; gap:22px; flex-wrap:wrap; margin-top:36px; font-size:13.5px; color:var(--ink-soft);}
   .trust-item{display:flex; align-items:center; gap:8px;}
-  .trust-item svg{flex:none;}
+  .trust-item svg{flex:none; color:var(--teal-600);}
 
   section{padding:64px 0;}
-  section.alt{background:var(--teal-900); color:#fff;}
-  section.alt h2, section.alt h3{color:#fff;}
-  section.alt .sub{color:#c9ddd8;}
+  section[id]{scroll-margin-top:calc(var(--topbar-h, 58px) + var(--page-nav-h, 64px));}
+  section.alt{background:var(--band); color:var(--band-muted);}
+  section.alt h2, section.alt h3{color:var(--band-ink);}
+  section.alt .sub{color:var(--band-muted);}
+  section.alt .kicker{color:var(--band-accent);}
   .section-head{max-width:640px; margin-bottom:38px;}
   .kicker{color:var(--coral); font-weight:700; font-size:12.5px; text-transform:uppercase; letter-spacing:.06em;}
   .sub{color:var(--ink-soft); font-size:16px;}
@@ -120,14 +160,18 @@
   .example-box blockquote{
     margin:8px 0; padding-left:12px; border-left:3px solid var(--line); font-style:italic; color:var(--ink-soft); font-size:13.5px;
   }
-  .c-behavior{background:var(--teal-600);}
-  .c-info{background:var(--amber-dark);}
-  .c-thought{background:var(--coral-dark);}
-  .c-emotion{background:#8e5bc9;}
+  .c-behavior{background:var(--bite-b);}
+  .c-info{background:var(--bite-i);}
+  .c-thought{background:var(--bite-t);}
+  .c-emotion{background:var(--bite-e);}
 
   /* Other groups strip (na ciemnym tle section.alt — lokalny wariant .chip) */
   .chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
-  .chips .chip{background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#fff; padding:8px 16px;}
+  .chips .chip{
+    background:color-mix(in srgb, var(--band-ink) 10%, transparent);
+    border:1px solid color-mix(in srgb, var(--band-ink) 32%, transparent);
+    color:var(--band-ink); padding:8px 16px;
+  }
 
   /* Quiz */
   .quiz-card{
@@ -207,8 +251,8 @@
   .related-link-sub{display:block; font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
 
   /* Znajdź mnie w sieci — rząd ikon social-links w stopce (social-links-component.html) */
-  .footer-social-label{font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#c9ddd8; margin:16px 0 10px;}
-  footer .social-links a{background:rgba(255,255,255,0.1); color:#fff;}
+  .footer-social-label{font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--band-muted); margin:16px 0 10px;}
+  footer .social-links a{background:color-mix(in srgb, var(--band-ink) 12%, transparent); color:var(--band-ink);}
   footer .social-links a:hover{background:var(--coral); color:#fff;}
 
   /* Article */
@@ -244,8 +288,12 @@
   }
   details.article-toggle > summary::-webkit-details-marker{display:none;}
 
-  footer{padding:44px 0; background:var(--teal-900); color:#c9ddd8; font-size:13.5px;}
-  footer a{color:#fff;}
+  footer{padding:44px 0; background:var(--band); color:var(--band-muted); font-size:13.5px;}
+  footer .brand,
+  footer .small,
+  footer p{color:var(--band-muted);}
+  footer .brand{color:var(--band-ink);}
+  footer a{color:var(--band-ink);}
   footer .foot-wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
 
   .hidden{display:none !important;}
@@ -270,8 +318,26 @@
     transform:translateY(-2px); box-shadow:0 9px 20px rgba(0,0,0,0.34); background:var(--amber-dark); color:#fff;
   }
   .coffee-fab .coffee-icon{font-size:16px; line-height:1;}
-  @media (max-width:480px){
-    .coffee-fab{right:12px; bottom:70px; padding:10px 14px; font-size:13px;}
+  @media (max-width:640px){
+    body{padding-bottom:72px;}
+    header.hero{padding:18px 0 24px;}
+    header.hero .eyebrow{margin-bottom:10px;}
+    header.hero .lede{font-size:16.5px; margin-bottom:0;}
+    header.hero .cta-row{margin-top:14px;}
+    header.hero .trust-row{margin-top:18px;}
+    .coffee-fab{right:12px; bottom:70px; padding:12px; min-width:44px; min-height:44px; justify-content:center;}
+    .coffee-fab .coffee-label{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+    /* Baner ASD na tej stronie jest w jednym rzędzie — pełna szerokość
+       zjadała pierwszy ekran i przykrywała „Zrób test”. */
+    .sensory-banner-text .text-sm{display:none;}
+    .sensory-banner-inner{
+      flex-direction:row; align-items:center; text-align:left;
+      padding:10px 14px; gap:10px;
+    }
+    .btn-sensory{width:auto; padding:10px 14px;}
   }
   @media (min-width:900px){
     .coffee-fab{right:24px; bottom:24px;}
